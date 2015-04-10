@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+	viewTask.xhtml
+	View displaying a single task.
+ -->
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:x2h="http://xframe.unicredit.eu/jsf/facelets/html">
+	<f:metadata>
+		<f:viewParam name="taskId" value="#{taskEditor.taskId}" />
+		<f:event type="preRenderView" listener="#{taskEditor.onPreRenderView}" />
+	</f:metadata>
+	<ui:composition template="/resources/jeetrain/layouts/master.xhtml">
+		<ui:define name="pageTitle">JEETrain: View Task</ui:define>
+		<ui:define name="content">
+			<p:panel id="viewTaskPanel" header="View Task">
+				<h:form id="viewTaskForm" >
+					<p:messages />
+					<p:fieldset legend="General">
+						<h:panelGrid columns="2" >
+							<h:outputLabel for="taskId" value="Task ID" />
+							<h:outputText id="taskId" value="#{taskEditor.task.id}" />
+							<h:outputLabel for="subject" value="Subject" />
+							<h:outputText id="subject" value="#{taskEditor.task.subject}" />
+							<h:outputLabel for="description" value="Description" />
+							<h:outputText id="description" value="#{taskEditor.task.description}" />
+							<h:outputLabel for="category" value="Category" />
+							<h:outputText id="category" value="#{taskEditor.task.category}" />
+							<h:outputLabel for="priority" value="Priority" />
+							<h:outputText id="priority" value="#{taskEditor.task.priority}" />
+						</h:panelGrid>
+					</p:fieldset>
+					<p:fieldset legend="Lifecyle">
+						<h:panelGrid columns="2">
+							<h:outputLabel for="lifeCycleState" value="Status" />
+							<h:outputText id="lifeCycleState" value="#{taskEditor.task.lifeCycleState}" />
+							<h:outputLabel for="dueDate" value="Due date" />
+							<h:outputText id="dueDate" value="#{taskEditor.task.dueDate}" >
+								<f:convertDateTime dateStyle="medium"/>
+							</h:outputText>
+							<h:outputLabel for="responsibleUserId" value="Responsible" />
+							<h:outputText id="responsibleUserId" value="#{taskEditor.task.responsibleUserId}" />
+							<h:outputLabel for="requestDate" value="Request date" />
+							<h:outputText id="requestDate" value="#{taskEditor.task.submissionDate}" >
+								<f:convertDateTime dateStyle="medium"/>
+							</h:outputText>
+							<h:outputLabel for="requesterUserId" value="Requested by" />
+							<h:outputText id="requesterUserId" value="#{taskEditor.task.submitterUserId}" />
+							<h:outputLabel for="completionDate" value="Completion date" />
+							<h:outputText id="completionDate" value="#{taskEditor.task.completionDate}" >
+								<f:convertDateTime dateStyle="medium"/>
+							</h:outputText>
+							<h:outputLabel for="completerUserId" value="Completed by" />
+							<h:outputText id="completerUserId" value="#{taskEditor.task.completedByUserId}" />
+						</h:panelGrid>
+					</p:fieldset>
+					<p:fieldset legend="Affected components">
+						<h:panelGrid columns="2">
+							<h:outputLabel for="project" value="Project" />
+							<h:outputText id="project" value="#{taskEditor.task.affectedProjectId}" />
+							<h:outputLabel for="application" value="Application" />
+							<h:outputText id="application" value="#{taskEditor.task.affectedApplicationId}" />
+							<h:outputLabel for="module" value="Module" />
+							<h:outputText id="module" value="#{taskEditor.task.affectedModule}" />
+						</h:panelGrid>
+					</p:fieldset>
+					<p:fieldset legend="Audit information">
+						<h:panelGrid columns="2">
+							<h:outputLabel for="version" value="Version" />
+							<h:outputText id="version" value="#{taskEditor.task.version}" />
+							<h:outputLabel for="creatorId" value="Creator ID" />
+							<h:outputText id="creatorId" value="#{taskEditor.task.creatorId}" />
+							<h:outputLabel for="creationDate" value="Creation date" />
+							<h:outputText id="creationDate" value="#{taskEditor.task.creationDate}" />
+							<h:outputLabel for="lastModifierId" value="Last modifier ID" />
+							<h:outputText id="lastModifierId" value="#{taskEditor.task.lastModifierId}" />
+							<h:outputLabel for="lastModificationDate" value="Last modification date" />
+							<h:outputText id="lastModificationDate" value="#{taskEditor.task.lastModificationDate}" />
+						</h:panelGrid>
+					</p:fieldset>
+					<p:commandButton id="closeView" value="Close" action="#{taskEditor.closeView}" ajax="false" immediate="true" />
+				</h:form>
+			</p:panel>
+		</ui:define>
+	</ui:composition>
+</f:view>

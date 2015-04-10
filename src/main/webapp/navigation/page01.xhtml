@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+	page01.xhtml
+	First of two pages 
+ -->
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" >
+	<f:metadata>
+		<f:viewParam name="id" value="#{navigator.id}" />
+		<f:event type="preRenderView" listener="#{navigator.onPreRenderView}" />
+	</f:metadata>
+	<ui:composition template="/resources/jeetrain/layouts/masterNoNavigation.xhtml">
+		<ui:define name="pageTitle">JEETrain: Navigation Page 1</ui:define>
+		<ui:define name="content">
+			<p:panel id="panel01" header="Enter Data">
+				<h:form id="enterDataForm">
+					<p:messages showSummary="true" layout="list" tooltip="true" />
+					<p:outputLabel for="text" value="Text:" />
+					<p:inputText id="text" value="#{navigator.data.text}" />
+					<h:panelGrid columns="3">
+						<h:commandButton id="apply" action="#{navigator.apply}" value="OK" />
+					</h:panelGrid>
+				</h:form>
+			</p:panel>		
+		</ui:define>
+	</ui:composition>
+</f:view>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+	confirmUser.xhtml
+	View to confirm a newly registered user 
+ -->
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<f:metadata>
+		<f:viewParam name="userId" value="#{userEditor.userId}" />
+		<f:event type="preRenderView" listener="#{userEditor.onPreRenderView}" />
+	</f:metadata>
+	<ui:composition template="/resources/jeetrain/layouts/masterNoNavigation.xhtml">
+		<ui:define name="pageTitle">JEETrain: Confirm User</ui:define>
+		<ui:define name="content">
+			<p:panel id="comfirmUserPanel" header="Confirm User">
+				<h:form id="confirmUserForm">
+					<h:messages showSummary="true" layout="list" tooltip="true" />
+					<h:panelGrid columns="2">
+					    <h:outputLabel id="userIdLabel" for="userId" value="User ID:" />
+					    <h:outputText id="userId" value="#{userEditor.user.id}" />
+						<h:outputLabel id="fullNameLabel" for="fullName" value="Full name:" />
+						<h:outputText id="fullName" value="#{userEditor.user.fullName}" />
+						<h:outputLabel id="genderLabel" for="gender" value="Gender:" />
+						<h:outputText id="gender" value="#{userEditor.user.gender}" />
+						<h:outputLabel id="dateOfBirthLabel" for="dateOfBirth" value="Date of birth (YYYY-MM-DD):" />
+						<h:outputText id="dateOfBirth" value="#{userEditor.user.dateOfBirth}" >
+							<f:convertDateTime type="date" pattern="yyyy-MM-dd" />
+						</h:outputText>
+						<h:outputLabel id="emailLabel" for="email" value="Email:" />
+						<h:outputText id="email" value="#{userEditor.user.email}" required="true" />
+						<h:outputLabel id="phoneLabel" for="phone" value="Phone:" />
+						<h:outputText id="phone" value="#{userEditor.user.phone}" required="true" />
+						<h:outputLabel id="mobileLabel" for="mobile" value="Mobile:" />
+						<h:outputText id="mobile" value="#{userEditor.user.mobile}" required="true" />
+					</h:panelGrid>
+					<h:panelGrid columns="3">
+						<h:commandButton id="confirmButton" action="/home/home?faces-redirect=true" value="Confirm" />
+					</h:panelGrid>
+				</h:form>
+			</p:panel>		
+		</ui:define>
+	</ui:composition>
+</f:view>

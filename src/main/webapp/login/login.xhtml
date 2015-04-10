@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition
+		template="/resources/jeetrain/layouts/masterNoNavigation.xhtml">
+		<ui:define name="pageTitle">JEETrain Login</ui:define>
+		<ui:define name="content">
+			<p:panel header="JEETrain Login"
+				style="width: 50em; position: relative;">
+				<form id="loginForm" action="j_security_check" method="post">
+					<h:panelGrid columns="2">
+						<h:outputLabel id="userNameLabel" for="j_username"
+							value="User name:" />
+						<h:inputText id="j_username" size="16" required="true" />
+						<h:outputLabel id="passwordLabel" for="j_password"
+							value="Password:" />
+						<h:inputSecret id="j_password" size="16" required="true" />
+					</h:panelGrid>
+					<h:panelGrid columns="3">
+						<h:commandButton id="loginButton" type="submit" value="Login" />
+						<h:commandButton id="cancelButton" type="reset" value="Abbrechen" />
+						<h:button id="registerButton"
+							outcome="/users/registerUser?faces-redirect=true"
+							value="Registrieren" />
+					</h:panelGrid>
+				</form>
+			</p:panel>
+		</ui:define>
+	</ui:composition>
+</f:view>

@@ -1,0 +1,1 @@
+CREATE SCHEMA `jeetrain_db` DEFAULT CHARACTER SET utf8;
