@@ -25,6 +25,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
@@ -40,7 +41,6 @@ import javax.validation.constraints.Size;
 @NamedQueries({
 		@NamedQuery(name = User.QUERY_ALL, query = "SELECT u FROM User u ORDER BY u.fullName"),
 		@NamedQuery(name = User.COUNT_ALL, query = "SELECT COUNT(u) FROM User u"),
-		@NamedQuery(name = User.QUERY_BY_ID, query = "SELECT u FROM User u LEFT JOIN FETCH u.roles WHERE u.id = :userId"),
 		@NamedQuery(name = User.QUERY_BY_NAME, query = "SELECT u FROM User u LEFT JOIN FETCH u.roles WHERE u.userName = :userName") })
 public class User implements Serializable {
 
@@ -48,19 +48,12 @@ public class User implements Serializable {
 
 	public static final String COUNT_ALL = "edu.hm.cs.fwp.jeetrain.business.users.COUNT_ALL";
 
-	public static final String QUERY_BY_ID = "edu.hm.cs.fwp.jeetrain.business.users.QUERY_BY_ID";
-
 	public static final String QUERY_BY_NAME = "edu.hm.cs.fwp.jeetrain.business.users.QUERY_BY_NAME";
 
 	private static final long serialVersionUID = -4518047765217559890L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="UserIdGenerator")
-	@SequenceGenerator(name="UserIdGenerator", sequenceName="USERS_SEQUENCE")
 	@Column(name = "USER_ID")
-	private long id;
-	
-	@Column(name = "USER_NAME")
 	@NotNull
 	@Size(min = 5, max = 16)
 	private String userName;
@@ -114,15 +107,15 @@ public class User implements Serializable {
 	@Size(max = 16)
 	private String mobile;
 
+	@Version
+	@Column(name = "VERSION")
+	private long version;
+
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
 	@JoinColumn(name = "USER_ID")
 	@NotNull
 	@Size(min = 1)
 	private Set<Role> roles = new HashSet<Role>();
-
-	public long getId() {
-		return this.id;
-	}
 
 	
 	public String getUserName() {
@@ -223,10 +216,8 @@ public class User implements Serializable {
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
-		result = prime * result + (int) (id ^ (id >>> 32));
-		result = prime * result
-				+ ((userName == null) ? 0 : userName.hashCode());
+		int result = 17;
+		result = prime * result + userName.hashCode();
 		return result;
 	}
 
@@ -240,8 +231,6 @@ public class User implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
-		if (id != other.id)
-			return false;
 		if (userName == null) {
 			if (other.userName != null)
 				return false;
@@ -258,8 +247,7 @@ public class User implements Serializable {
 	public String toString() {
 		StringBuilder result = new StringBuilder();
 		result.append(getClass().getSimpleName()).append(" {");
-		result.append(" id:").append(getId());
-		result.append(", userName:\"").append(getUserName()).append("\"");
+		result.append(" id:").append(getUserName());
 		result.append(" }");
 		return result.toString();
 	}

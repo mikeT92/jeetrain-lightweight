@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
@@ -47,7 +48,8 @@ public class Task implements Serializable, AuditableEntity {
 	 * Unique identifier of this task.
 	 */
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tasksSequence")
+	@GeneratedValue(strategy = GenerationType.TABLE, generator="Task.id.generator")
+	@TableGenerator(name="Task.id.generator", table="T_SEQUENCE")
 	@Column(name = "TASK_ID")
 	private long id;
 
@@ -95,7 +97,7 @@ public class Task implements Serializable, AuditableEntity {
 	 * Expected to be set when task lifeCycleState is <code>running</code>.
 	 * </p>
 	 */
-	@Column(name = "REQUEST_DATE")
+	@Column(name = "SUBMISSION_DATE")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date submissionDate;
 
@@ -105,7 +107,7 @@ public class Task implements Serializable, AuditableEntity {
 	 * Expected to be set when task lifeCycleState is <code>completed</code>.
 	 * </p>
 	 */
-	@Column(name = "REQUESTER_USER_ID")
+	@Column(name = "SUBMITTER_ID")
 	private String submitterUserId;
 
 	/**
@@ -137,7 +139,7 @@ public class Task implements Serializable, AuditableEntity {
 	 * Expected to be set when task lifeCycleState is <code>completed</code>.
 	 * </p>
 	 */
-	@Column(name = "COMPLETER_USER_ID")
+	@Column(name = "COMPLETER_ID")
 	private String completedByUserId;
 
 	/**
@@ -145,7 +147,7 @@ public class Task implements Serializable, AuditableEntity {
 	 * this task.
 	 */
 	@Size(max = 16)
-	@Column(name = "RESPONSIBLE_USER_ID")
+	@Column(name = "RESPONSIBLE_ID")
 	private String responsibleUserId;
 
 	/**
@@ -408,6 +410,7 @@ public class Task implements Serializable, AuditableEntity {
 		}
 		this.creatorId = creatorId;
 		this.creationDate = creationDate;
+		trackModification(creatorId, creationDate);
 	}
 
 	/**

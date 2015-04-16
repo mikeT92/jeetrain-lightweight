@@ -14,7 +14,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import edu.hm.cs.fwp.jeetrain.business.users.boundary.UserRegistrationBean;
+import edu.hm.cs.fwp.jeetrain.business.users.boundary.UserRegistration;
 import edu.hm.cs.fwp.jeetrain.business.users.entity.Role;
 import edu.hm.cs.fwp.jeetrain.business.users.entity.Roles;
 import edu.hm.cs.fwp.jeetrain.business.users.entity.User;
@@ -36,17 +36,17 @@ public class UserEditorBean implements Serializable {
 	private Conversation conversation;
 
 	/**
-	 * Boundary {@code UserRegistration} that handles the user
-	 * registration process.
+	 * Boundary {@code UserRegistration} that handles the user registration
+	 * process.
 	 */
 	@Inject
-	private UserRegistrationBean boundary;
+	private UserRegistration boundary;
 
 	/**
 	 * Unique identifier of the user the editor currently works on. (view
 	 * parameter)
 	 */
-	private long userId;
+	private String userId;
 
 	/**
 	 * Current user this editor is working on.
@@ -56,11 +56,11 @@ public class UserEditorBean implements Serializable {
 	/**
 	 * Sets the value for view parameter userId passed to the associated view.
 	 */
-	public void setUserId(long userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 
-	public long getUserId() {
+	public String getUserId() {
 		return this.userId;
 	}
 
@@ -105,12 +105,11 @@ public class UserEditorBean implements Serializable {
 	public void onPreRenderView() {
 		System.out.println("userEditor.onPreRenderView");
 		if (this.user == null) {
-			if (this.userId == 0L) {
+			if (this.userId == null) {
 				this.user = new User();
 				this.user.getRoles().add(new Role(Roles.JEETRAIN_USER));
 			} else {
-				this.user = this.boundary
-						.retrieveUserById(this.userId);
+				this.user = this.boundary.retrieveUserById(this.userId);
 			}
 		}
 	}

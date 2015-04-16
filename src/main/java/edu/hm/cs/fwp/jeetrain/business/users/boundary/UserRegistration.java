@@ -37,7 +37,7 @@ public interface UserRegistration {
 	 * @throws IllegalStateException
 	 *             , if there is no user with the specified user ID.
 	 */
-	public User retrieveUserById(long userId);
+	public User retrieveUserById(@NotNull String userId);
 
 	/**
 	 * Returns <code>true</code>, if the specified username is available;
@@ -48,7 +48,7 @@ public interface UserRegistration {
 	/**
 	 * Unregisters the user identified by the given user ID.
 	 */
-	public void unregisterUser(long userId);
+	public void unregisterUser(@NotNull String userId);
 
 	/**
 	 * Returns all registered users.

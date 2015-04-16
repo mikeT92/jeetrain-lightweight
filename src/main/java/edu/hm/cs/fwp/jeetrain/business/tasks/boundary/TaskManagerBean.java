@@ -15,7 +15,7 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 
 import edu.hm.cs.fwp.jeetrain.business.tasks.entity.Task;
-import edu.hm.cs.fwp.jeetrain.integration.tasks.TaskRepository;
+import edu.hm.cs.fwp.jeetrain.integration.tasks.TaskRepositoryBean;
 
 /**
  * {@code SERVICE FACADE} implementation class.
@@ -33,7 +33,7 @@ public class TaskManagerBean implements TaskManager {
 	private SessionContext sessionContext;
 	
 	@EJB
-	private TaskRepository taskRepository;
+	private TaskRepositoryBean taskRepository;
 
 	/**
 	 * @see edu.hm.cs.fwp.jeetrain.business.tasks.boundary.TaskManager#addTask(edu.hm.cs.fwp.jeetrain.business.tasks.entity.Task)
@@ -41,7 +41,7 @@ public class TaskManagerBean implements TaskManager {
 	@Override
 	public Task addTask(Task newTask) {
 		newTask.setResponsibleUserId(this.sessionContext.getCallerPrincipal().getName());
-		return this.taskRepository.addEntity(newTask);
+		return this.taskRepository.addTask(newTask);
 	}
 
 	/**
@@ -49,7 +49,7 @@ public class TaskManagerBean implements TaskManager {
 	 */
 	@Override
 	public Task retrieveTaskById(long taskId) {
-		return this.taskRepository.getRequiredEntityById(taskId);
+		return this.taskRepository.getTaskById(taskId);
 	}
 
 	/**
@@ -57,7 +57,7 @@ public class TaskManagerBean implements TaskManager {
 	 */
 	@Override
 	public List<Task> retrieveAllTasks() {
-		return this.taskRepository.queryEntities(Task.QUERY_ALL, null);
+		return this.taskRepository.getAllTasks();
 	}
 
 }

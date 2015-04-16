@@ -1,4 +1,4 @@
-rem @echo off
+@echo off
 rem addAdminUser.cmd
 rem -----------------------------------------------------------------
 rem Setzt den Admin-User fuer eine bestehende WildFly-Instanz. 

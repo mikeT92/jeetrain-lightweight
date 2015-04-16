@@ -11,8 +11,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 
 /**
  * Role that can be assigned to a JEETRAIN user.
@@ -26,8 +26,8 @@ public class Role implements Serializable {
 	private static final long serialVersionUID = 8985105701544649718L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="RoleIdGenerator")
-	@SequenceGenerator(name="RoleIdGenerator", sequenceName="USERS_SEQUENCE")
+	@GeneratedValue(strategy = GenerationType.TABLE, generator="Role.id.generator")
+	@TableGenerator(name="Role.id.generator", table="T_SEQUENCE")
 	@Column(name = "ROLE_ID")
 	private long roleId;
 	
