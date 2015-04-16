@@ -1,4 +1,4 @@
-/* PasswordEncoderBean.java @(#)%PID%
+/* PasswordEncoderBean.java
  */
 package edu.hm.cs.fwp.jeetrain.business.users.control;
 
@@ -9,8 +9,8 @@ import java.util.Base64;
 import javax.ejb.Stateless;
 
 /**
- * Service that encodes passwords before they are written to the user
- * repository.
+ * {@code Control}, der Kennwörter verschlüsselt, damit sie sicher in der
+ * User-Datenbank abgespeichert werden können.
  * 
  * @author Mike
  * @version %PR% %PRT% %PO%
@@ -18,15 +18,10 @@ import javax.ejb.Stateless;
  */
 @Stateless
 public class PasswordEncoderBean {
-
-	private static final char[] HEXADECIMAL = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-			'a', 'b', 'c', 'd', 'e', 'f' };
-
-	public PasswordEncoderBean() {
-		
-	}
 	/**
-	 * Return the specified password after encoding.
+	 * Verschlüsselt das angegebene Kennwort mit einem SHA-256-Algorithmus und
+	 * liefert das Ergebnis der Verschlüsselung als Base64-enkodierten String
+	 * zurück.
 	 */
 	public String encode(String password) {
 
@@ -40,13 +35,5 @@ public class PasswordEncoderBean {
 
 		byte[] encryptedPassword = md.digest(password.getBytes());
 		return Base64.getEncoder().encodeToString(encryptedPassword);
-//		StringBuilder sb = new StringBuilder(2 * encryptedPassword.length);
-//		for (byte current : encryptedPassword) {
-//			int low = (int) (current & 0x0f);
-//			int high = (int) ((current & 0xf0) >> 4);
-//			sb.append(HEXADECIMAL[high]);
-//			sb.append(HEXADECIMAL[low]);
-//		}
-//		return sb.toString();
 	}
 }

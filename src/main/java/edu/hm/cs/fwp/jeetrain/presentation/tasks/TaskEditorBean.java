@@ -5,12 +5,11 @@ package edu.hm.cs.fwp.jeetrain.presentation.tasks;
 import java.io.Serializable;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.Conversation;
-import javax.enterprise.context.ConversationScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import edu.hm.cs.fwp.jeetrain.business.tasks.boundary.TaskManagerBean;
+import edu.hm.cs.fwp.jeetrain.business.tasks.boundary.TaskManager;
 import edu.hm.cs.fwp.jeetrain.business.tasks.entity.Task;
 import edu.hm.cs.fwp.jeetrain.business.tasks.entity.TaskCategory;
 import edu.hm.cs.fwp.jeetrain.business.tasks.entity.TaskPriority;
@@ -24,16 +23,11 @@ import edu.hm.cs.fwp.jeetrain.business.tasks.entity.TaskPriority;
  */
 @SuppressWarnings("serial")
 @Named("taskEditor")
-@ConversationScoped
+@ViewScoped
 public class TaskEditorBean implements Serializable {
 
 	@Inject
-	private Conversation conversation;
-
-	@Inject
-	private TaskManagerBean facade;
-
-	private boolean owningConversation;
+	private TaskManager boundary;
 
 	private long taskId;
 
@@ -47,10 +41,6 @@ public class TaskEditorBean implements Serializable {
 	 */
 	@PostConstruct
 	public void onPostConstruct() {
-		if (this.conversation.isTransient()) {
-			this.conversation.begin();
-			this.owningConversation = true;
-		}
 	}
 
 	/**
@@ -74,7 +64,7 @@ public class TaskEditorBean implements Serializable {
 			if (this.taskId == 0) {
 				this.task = new Task();
 			} else {
-				this.task = this.facade.retrieveTaskById(this.taskId);
+				this.task = this.boundary.retrieveTaskById(this.taskId);
 			}
 		}
 	}
@@ -115,7 +105,7 @@ public class TaskEditorBean implements Serializable {
 	// actions ---------------------------------------------------------------
 
 	public String newTask() {
-		this.task = this.facade.addTask(this.task);
+		this.task = this.boundary.addTask(this.task);
 		return "viewTask?faces-redirect=true";
 	}
 
@@ -125,9 +115,6 @@ public class TaskEditorBean implements Serializable {
 
 	public String closeView() {
 		this.task = null;
-		if (!this.conversation.isTransient() && this.owningConversation) {
-			this.conversation.end();
-		}
 		return "/tasks/browseTasks?faces-redirect=true";
 	}
 }

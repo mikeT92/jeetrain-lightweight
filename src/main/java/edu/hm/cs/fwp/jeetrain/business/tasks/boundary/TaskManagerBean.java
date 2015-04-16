@@ -7,8 +7,7 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
-import javax.ejb.LocalBean;
-import javax.ejb.Remote;
+import javax.ejb.Local;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -23,8 +22,7 @@ import edu.hm.cs.fwp.jeetrain.integration.tasks.TaskRepositoryBean;
  * @author theism
  */
 @Stateless
-@Remote(TaskManager.class)
-@LocalBean
+@Local(TaskManager.class)
 @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 @RolesAllowed("JEETRAIN_USER")
 public class TaskManagerBean implements TaskManager {

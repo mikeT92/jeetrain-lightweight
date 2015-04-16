@@ -4,35 +4,36 @@ package edu.hm.cs.fwp.jeetrain.presentation.tasks;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.PostConstruct;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.primefaces.model.SortOrder;
-
-import edu.hm.cs.fwp.jeetrain.business.tasks.boundary.TaskManagerBean;
+import edu.hm.cs.fwp.jeetrain.business.tasks.boundary.TaskManager;
 import edu.hm.cs.fwp.jeetrain.business.tasks.entity.Task;
-import edu.hm.cs.fwp.jeetrain.framework.web.context.ViewScoped;
+import edu.hm.cs.fwp.jeetrain.framework.web.faces.component.datatable.SelectableDataTableModel;
 import edu.hm.cs.fwp.jeetrain.framework.web.faces.component.datatable.SelectableLazyDataTableModel;
 
 /**
  * {@code ManagedBean} that manages the browseTasks view.
  * 
- * @author p534184
- * @version %PR% %PRT% %PO%
- * @since release 1.0 31.10.2012 16:23:52
+ * @author theism
+ * @version 1.0
+ * @since release 1.0
  */
-@SuppressWarnings("serial")
 @Named("taskBrowser")
 @ViewScoped
 public class TaskBrowserBean implements Serializable {
 
-	@Inject
-	private TaskManagerBean taskStore;
+	private static final long serialVersionUID = -4264634758367258630L;
 
-	private SelectableLazyDataTableModel<Task> taskModel;
+	@Inject
+	private TaskManager boundary;
+
+	private List<Task> tasks;
+	
+	private SelectableDataTableModel<Task> taskModel;
 
 	// event handlers --------------------------------------------------------
 
@@ -50,24 +51,28 @@ public class TaskBrowserBean implements Serializable {
 	 */
 	public void onPreRenderView() {
 		System.out.println(getClass().getSimpleName() + "#onPreRenderView()");
+		if (this.tasks == null) {
+			this.tasks = this.boundary.retrieveAllTasks();
+			this.taskModel = new SelectableDataTableModel<Task>(this.tasks);
+		}
 	}
 
 	// values ----------------------------------------------------------------
 
-	public SelectableLazyDataTableModel<Task> getTaskModel() {
+	public SelectableDataTableModel<Task> getTaskModel() {
 		return this.taskModel;
 	}
 
 	public boolean isEditTaskEnabled() {
-		return this.taskModel.isAnyRowSelected();
+		return true; // this.taskModel.isAnyRowSelected();
 	}
 
 	public boolean isViewTaskEnabled() {
-		return this.taskModel.isAnyRowSelected();
+		return true; // this.taskModel.isAnyRowSelected();
 	}
 
 	public boolean isDeleteTaskEnabled() {
-		return this.taskModel.isAnyRowSelected();
+		return true; // this.taskModel.isAnyRowSelected();
 	}
 
 	// actions ---------------------------------------------------------------
