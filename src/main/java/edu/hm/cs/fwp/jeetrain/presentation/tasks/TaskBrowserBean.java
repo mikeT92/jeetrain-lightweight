@@ -4,16 +4,17 @@ package edu.hm.cs.fwp.jeetrain.presentation.tasks;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
-import javax.faces.view.ViewScoped;
+import javax.annotation.PreDestroy;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import edu.hm.cs.fwp.jeetrain.business.tasks.boundary.TaskManager;
 import edu.hm.cs.fwp.jeetrain.business.tasks.entity.Task;
 import edu.hm.cs.fwp.jeetrain.framework.web.faces.component.datatable.SelectableDataTableModel;
-import edu.hm.cs.fwp.jeetrain.framework.web.faces.component.datatable.SelectableLazyDataTableModel;
 
 /**
  * {@code ManagedBean} that manages the browseTasks view.
@@ -23,9 +24,11 @@ import edu.hm.cs.fwp.jeetrain.framework.web.faces.component.datatable.Selectable
  * @since release 1.0
  */
 @Named("taskBrowser")
-@ViewScoped
+@SessionScoped
 public class TaskBrowserBean implements Serializable {
 
+	private static final Logger LOGGER = Logger.getLogger(TaskBrowserBean.class.getName());
+	
 	private static final long serialVersionUID = -4264634758367258630L;
 
 	@Inject
@@ -43,14 +46,22 @@ public class TaskBrowserBean implements Serializable {
 	 */
 	@PostConstruct
 	public void onPostConstruct() {
-		System.out.println(getClass().getSimpleName() + "#onPostConstruct()");
+		LOGGER.info("constructed");
+	}
+
+	/**
+	 * Gets called whenever the enclosing scope of this instance is closed.
+	 */
+	@PreDestroy
+	public void onPreDestroy() {
+		LOGGER.info("about to be destroyed");
 	}
 
 	/**
 	 * Gets called whenever the associated view is about to be rendered.
 	 */
 	public void onPreRenderView() {
-		System.out.println(getClass().getSimpleName() + "#onPreRenderView()");
+		LOGGER.info("about to render view");
 		if (this.tasks == null) {
 			this.tasks = this.boundary.retrieveAllTasks();
 			this.taskModel = new SelectableDataTableModel<Task>(this.tasks);
@@ -96,6 +107,6 @@ public class TaskBrowserBean implements Serializable {
 	}
 
 	public String closeView() {
-		return "/home/home?faces-redirect=true";
+		return "returnFromBrowseTasks";
 	}
 }

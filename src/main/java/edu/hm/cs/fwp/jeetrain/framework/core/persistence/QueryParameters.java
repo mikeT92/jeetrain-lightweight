@@ -12,5 +12,9 @@ import javax.persistence.Query;
  * @since 16.04.2015
  */
 public interface QueryParameters {
+	/**
+	 * Übergibt alle Parameter an die angegeben Query.
+	 * @param query parametrisierbare Query
+	 */
     void applyParameters(Query query);
 }

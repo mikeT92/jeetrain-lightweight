@@ -10,15 +10,17 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:p="http://primefaces.org/ui">
-	<p:menubar id="menuBar">
-		<p:menuitem value="Home" url="/home/home.jsf" />
-		<p:submenu label="Users">
-			<p:menuitem value="Browse Users" url="/users/browseUsers.jsf" />
-		</p:submenu>
-		<p:submenu label="Tasks">
-			<p:menuitem value="Browse Tasks" url="/tasks/browseTasks.jsf" />
-		</p:submenu>
-		<p:menuitem value="Support" url="/home/support.jsf" />
-		<p:menuitem value="Contact" url="/home/contact.jsf" />
-	</p:menubar>
+	<h:form id="menuBarForm">
+		<p:menubar id="menuBar">
+			<p:menuitem value="Home" url="/home/home.jsf" />
+			<p:submenu label="Users">
+				<p:menuitem value="Browse Users" url="browseUsers" />
+			</p:submenu>
+			<p:submenu label="Tasks">
+				<p:menuitem value="Browse Tasks" action="/tasks/browseTasks?faces-redirect=true" />
+			</p:submenu>
+			<p:menuitem value="Support" url="/home/support.jsf" />
+			<p:menuitem value="Contact" url="/home/contact.jsf" />
+		</p:menubar>
+	</h:form>
 </ui:composition>

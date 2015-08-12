@@ -17,14 +17,13 @@
 			<p:panel id="newTaskPanel" header="New Task">
 				<h:form id="newTaskForm" >
 					<p:messages />
-					<p:fieldset legend="General">
+					<fieldset>
+						<legend>General</legend>
 						<h:panelGrid columns="2" >
 							<p:outputLabel for="subject" value="Subject" />
 							<p:inputText id="subject" value="#{taskEditor.task.subject}" />
 							<p:outputLabel for="description" value="Description" />
 							<p:inputTextarea id="description" value="#{taskEditor.task.description}" />
-						</h:panelGrid>
-						<h:panelGrid columns="6" >
 							<p:outputLabel for="category" value="Category" />
 							<p:selectOneMenu id="category" value="#{taskEditor.task.category}" >
 								<f:selectItems value="#{taskEditor.taskCategories}" />
@@ -36,14 +35,15 @@
 							<p:outputLabel for="dueDate" value="Due date" />
 							<p:calendar id="dueDate" value="#{taskEditor.task.dueDate}" showButtonPanel="true" mode="popup" showOn="button" popupIconOnly="true"/>
 						</h:panelGrid>
-					</p:fieldset>
-					<p:fieldset legend="Lifecyle">
+					</fieldset>
+					<fieldset>
+						<legend>Lifecycle</legend>
 						<h:panelGrid columns="2">
 							<h:outputLabel for="lifeCycleState" value="Status" />
 							<h:outputText id="lifeCycleState" value="#{taskEditor.task.lifeCycleState}" />
 						</h:panelGrid>
-					</p:fieldset>
-					<p:fieldset legend="Affected components">
+					</fieldset>
+					<fieldset><legend>Affected components</legend> 
 						<h:panelGrid columns="2">
 							<p:outputLabel for="project" value="Project" />
 							<p:inputText id="project" value="#{taskEditor.task.affectedProjectId}" />
@@ -52,11 +52,11 @@
 							<p:outputLabel for="module" value="Module" />
 							<p:inputText id="module" value="#{taskEditor.task.affectedModule}" />
 						</h:panelGrid>
-					</p:fieldset>
-					<h:panelGrid>
+					</fieldset>
+					<div>
 						<p:commandButton id="newTask" value="OK" action="#{taskEditor.newTask}" ajax="false" />
 						<p:commandButton id="closeView" value="Cancel" action="#{taskEditor.closeView}" ajax="false" immediate="true" />
-					</h:panelGrid>
+					</div>
 				</h:form>
 			</p:panel>
 		</ui:define>

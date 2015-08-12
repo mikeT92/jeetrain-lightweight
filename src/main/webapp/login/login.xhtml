@@ -22,11 +22,16 @@
 					<h:panelGrid columns="3">
 						<h:commandButton id="loginButton" type="submit" value="Login" />
 						<h:commandButton id="cancelButton" type="reset" value="Abbrechen" />
-						<h:button id="registerButton"
-							outcome="/users/registerUser?faces-redirect=true"
-							value="Registrieren" />
 					</h:panelGrid>
 				</form>
+				<h:form id="registerUserForm">
+					<h:panelGrid columns="2">
+						<h:outputText value="Noch nicht registriert?" />
+						<h:commandButton id="registerButton"
+							action="registerUser"
+							value="Registrieren" />
+					</h:panelGrid>
+				</h:form>
 			</p:panel>
 		</ui:define>
 	</ui:composition>

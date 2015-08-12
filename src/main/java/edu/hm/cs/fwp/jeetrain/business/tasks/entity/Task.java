@@ -56,6 +56,7 @@ public class Task implements Serializable, AuditableEntity {
 	/**
 	 * Single-line description or summary of what this task is about.
 	 */
+	@NotNull
 	@Size(max = 80)
 	@Column(name = "SUBJECT")
 	private String subject;
@@ -63,6 +64,7 @@ public class Task implements Serializable, AuditableEntity {
 	/**
 	 * Detailed description of this task.
 	 */
+	@NotNull
 	@Size(max = 1024)
 	@Column(name = "DESCRIPTION")
 	private String description;

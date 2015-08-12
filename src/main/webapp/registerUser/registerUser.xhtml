@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+	registerUser.xhtml
+	View to register a new user 
+ -->
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" >
+	<f:metadata>
+		<f:viewParam name="userId" value="#{userEditor.userId}" />
+		<f:event type="preRenderView" listener="#{userEditor.onPreRenderView}" />
+	</f:metadata>
+	<ui:composition template="/resources/jeetrain/layouts/masterNoNavigation.xhtml">
+		<ui:define name="pageTitle">JEETrain: Register User</ui:define>
+		<ui:define name="content">
+			<p:panel id="registerUserPanel" header="Register User">
+				<h:form id="registerUserForm">
+					<p:growl />
+					<fieldset>
+						<legend>User:</legend>
+						<h:panelGrid columns="2">
+							<p:outputLabel id="userNameLabel" for="userName" value="Username:" />
+							<p:inputText id="userName" value="#{userEditor.user.userName}" required="true" />
+							<p:outputLabel id="passwordLabel" for="password" value="Password:" />
+							<p:password id="password" value="#{userEditor.user.password}" required="true" />
+							<p:outputLabel id="confirmedPasswordLabel" for="confirmedPassword" value="Confirmed password:" />
+							<p:password id="confirmedPassword" value="#{userEditor.user.confirmedPassword}" required="true" />
+							<p:outputLabel id="firstNameLabel" for="firstName" value="First name:" />
+							<p:inputText id="firstName" value="#{userEditor.user.firstName}" required="true" />
+							<p:outputLabel id="lastNameLabel" for="lastName" value="Last name:" />
+							<p:inputText id="lastName" value="#{userEditor.user.lastName}" required="true" />
+							<p:outputLabel id="fullNameLabel" for="fullName" value="Full name:" />
+							<p:inputText id="fullName" value="#{userEditor.user.fullName}" required="true" />
+							<p:outputLabel id="genderLabel" for="gender" value="Gender:" />
+							<h:panelGroup>
+								<p:selectOneRadio id="gender" value="#{userEditor.user.gender}">
+									<f:selectItem id="femaleGenderOption" itemLabel="Female" itemValue="FEMALE"/>
+									<f:selectItem id="maleGenderOption" itemLabel="Male" itemValue="MALE"/>
+								</p:selectOneRadio>
+							</h:panelGroup>
+							<p:outputLabel id="dateOfBirthLabel" for="dateOfBirth" value="Date of birth (YYYY-MM-DD):" />
+							<p:inputText id="dateOfBirth" value="#{userEditor.user.dateOfBirth}" required="true" >
+								<f:convertDateTime type="date" pattern="yyyy-MM-dd" />
+							</p:inputText>
+							<p:outputLabel id="emailLabel" for="email" value="Email:" />
+							<p:inputText id="email" value="#{userEditor.user.email}" required="true" />
+							<p:outputLabel id="phoneLabel" for="phone" value="Phone:" />
+							<p:inputText id="phone" value="#{userEditor.user.phone}" />
+							<p:outputLabel id="mobileLabel" for="mobile" value="Mobile:" />
+							<p:inputText id="mobile" value="#{userEditor.user.mobile}" />
+						</h:panelGrid>
+					</fieldset>
+					<fieldset>
+						<legend>Assigned Roles:</legend>
+						<p:selectManyCheckbox id="roles" value="#{userEditor.roles}">
+							<f:selectItems value="#{userEditor.availableRoles}" var="current" itemLabel="#{current}" itemValue="#{current}" />
+						</p:selectManyCheckbox>
+					</fieldset>
+					<h:panelGrid columns="3">
+						<p:commandButton id="registerButton" action="#{userEditor.register}" value="Register" ajax="false"/>
+						<p:commandButton id="cancelButton" action="#{userEditor.cancel}" value="Cancel" ajax="false" immediate="true" />
+					</h:panelGrid>
+				</h:form>
+			</p:panel>		
+		</ui:define>
+	</ui:composition>
+</f:view>

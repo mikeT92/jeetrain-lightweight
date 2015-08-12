@@ -10,11 +10,9 @@ import javax.ejb.EJB;
 import javax.ejb.Local;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
 
 import edu.hm.cs.fwp.jeetrain.business.tasks.entity.Task;
-import edu.hm.cs.fwp.jeetrain.integration.tasks.TaskRepositoryBean;
+import edu.hm.cs.fwp.jeetrain.framework.core.persistence.GenericRepositoryBean;
 
 /**
  * {@code SERVICE FACADE} implementation class.
@@ -23,23 +21,24 @@ import edu.hm.cs.fwp.jeetrain.integration.tasks.TaskRepositoryBean;
  */
 @Stateless
 @Local(TaskManager.class)
-@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 @RolesAllowed("JEETRAIN_USER")
 public class TaskManagerBean implements TaskManager {
 
 	@Resource
 	private SessionContext sessionContext;
-	
+
 	@EJB
-	private TaskRepositoryBean taskRepository;
+	private GenericRepositoryBean repository;
 
 	/**
 	 * @see edu.hm.cs.fwp.jeetrain.business.tasks.boundary.TaskManager#addTask(edu.hm.cs.fwp.jeetrain.business.tasks.entity.Task)
 	 */
 	@Override
 	public Task addTask(Task newTask) {
-		newTask.setResponsibleUserId(this.sessionContext.getCallerPrincipal().getName());
-		return this.taskRepository.addTask(newTask);
+		newTask.setResponsibleUserId(this.sessionContext.getCallerPrincipal()
+				.getName());
+		this.repository.addEntity(newTask);
+		return newTask;
 	}
 
 	/**
@@ -47,7 +46,7 @@ public class TaskManagerBean implements TaskManager {
 	 */
 	@Override
 	public Task retrieveTaskById(long taskId) {
-		return this.taskRepository.getTaskById(taskId);
+		return this.repository.getEntityById(Task.class, taskId);
 	}
 
 	/**
@@ -55,7 +54,6 @@ public class TaskManagerBean implements TaskManager {
 	 */
 	@Override
 	public List<Task> retrieveAllTasks() {
-		return this.taskRepository.getAllTasks();
+		return this.repository.queryEntities(Task.class, Task.QUERY_ALL, null);
 	}
-
 }

@@ -9,7 +9,6 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 	<f:metadata>
-		<f:viewParam name="userId" value="#{userEditor.userId}" />
 		<f:event type="preRenderView" listener="#{userEditor.onPreRenderView}" />
 	</f:metadata>
 	<ui:composition template="/resources/jeetrain/layouts/masterNoNavigation.xhtml">
@@ -20,7 +19,7 @@
 					<h:messages showSummary="true" layout="list" tooltip="true" />
 					<h:panelGrid columns="2">
 					    <h:outputLabel id="userIdLabel" for="userId" value="User ID:" />
-					    <h:outputText id="userId" value="#{userEditor.user.id}" />
+					    <h:outputText id="userId" value="#{userEditor.user.userName}" />
 						<h:outputLabel id="fullNameLabel" for="fullName" value="Full name:" />
 						<h:outputText id="fullName" value="#{userEditor.user.fullName}" />
 						<h:outputLabel id="genderLabel" for="gender" value="Gender:" />
@@ -37,7 +36,9 @@
 						<h:outputText id="mobile" value="#{userEditor.user.mobile}" required="true" />
 					</h:panelGrid>
 					<h:panelGrid columns="3">
-						<h:commandButton id="confirmButton" action="/home/home?faces-redirect=true" value="Confirm" />
+						<h:commandButton id="backButton" action="registerUser" value="Back" />
+						<h:commandButton id="confirmButton" action="#{userEditor.confirm}" value="Confirm" />
+						<h:commandButton id="cancelButton" action="#{userEditor.cancel}" value="Cancel" />
 					</h:panelGrid>
 				</h:form>
 			</p:panel>		

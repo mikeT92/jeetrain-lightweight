@@ -8,4 +8,5 @@
    xmlns:h="http://java.sun.com/jsf/html"
    xmlns:f="http://java.sun.com/jsf/core">
 	<p style="text-align: center;">Copyright (c) 2010-2015 Michael Theis</p>
+	<p style="text-align: center;">#{facesContext.application.flowHandler.currentFlow != null ? facesContext.application.flowHandler.currentFlow.id : 'no flow'}</p>
 </ui:composition>

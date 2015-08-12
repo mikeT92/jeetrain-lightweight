@@ -26,7 +26,7 @@ public interface UserRegistration {
 	 * <ul>
 	 * <li>User names must be unique.</li>
 	 * </ul>
-	 * 
+	 * @param new User; must never be {@code null}
 	 * @return newly persisted {@code User}
 	 */
 	public User registerUser(@NotNull @Valid User newUser);

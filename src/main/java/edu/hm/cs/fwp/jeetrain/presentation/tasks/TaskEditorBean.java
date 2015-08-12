@@ -5,6 +5,8 @@ package edu.hm.cs.fwp.jeetrain.presentation.tasks;
 import java.io.Serializable;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -21,10 +23,11 @@ import edu.hm.cs.fwp.jeetrain.business.tasks.entity.TaskPriority;
  * @version %PR% %PRT% %PO%
  * @since release 1.0 31.10.2012 16:23:52
  */
-@SuppressWarnings("serial")
 @Named("taskEditor")
 @ViewScoped
 public class TaskEditorBean implements Serializable {
+
+	private static final long serialVersionUID = -8252721628528236785L;
 
 	@Inject
 	private TaskManager boundary;
@@ -57,9 +60,6 @@ public class TaskEditorBean implements Serializable {
 	 * </ul>
 	 */
 	public void onPreRenderView() {
-		System.out.println(getClass().getSimpleName()
-				+ "#onPreRenderView: task=[" + this.task + "], taskId=["
-				+ this.taskId + "]");
 		if (this.task == null) {
 			if (this.taskId == 0) {
 				this.task = new Task();
@@ -106,7 +106,7 @@ public class TaskEditorBean implements Serializable {
 
 	public String newTask() {
 		this.task = this.boundary.addTask(this.task);
-		return "viewTask?faces-redirect=true";
+		return "viewTask?faces-redirect=true?taskId=" + this.task.getId();
 	}
 
 	public String editTask() {

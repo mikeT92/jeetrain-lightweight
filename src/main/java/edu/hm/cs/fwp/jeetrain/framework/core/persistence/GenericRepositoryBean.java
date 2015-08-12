@@ -3,9 +3,12 @@
  */
 package edu.hm.cs.fwp.jeetrain.framework.core.persistence;
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import javax.annotation.Resource;
+import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -22,6 +25,12 @@ import javax.persistence.TypedQuery;
  */
 @Stateless
 public class GenericRepositoryBean {
+
+	/**
+	 * SessionContext zum Ermitteln des aktuell angemeldeten Benutzers
+	 */
+	@Resource
+	SessionContext sessionContext;
     /**
      * Entitäten-Manager für die Verwaltung persistenter Entitäten.
      */
@@ -34,6 +43,11 @@ public class GenericRepositoryBean {
      * @param entity hinzuzufügende Entität (erforderlich)
      */
     public void addEntity(Object entity) {
+		if (entity instanceof AuditableEntity) {
+			AuditableEntity auditable = (AuditableEntity) entity;
+			auditable.trackCreation(sessionContext.getCallerPrincipal()
+					.getName(), Calendar.getInstance().getTime());
+		}
         em.persist(entity);
         em.flush();
         em.refresh(entity);
@@ -74,6 +88,11 @@ public class GenericRepositoryBean {
      * @param entity zu aktualisierende Entität
      */
     public void setEntity(Object entity) {
+		if (entity instanceof AuditableEntity) {
+			AuditableEntity auditable = (AuditableEntity) entity;
+			auditable.trackModification(sessionContext.getCallerPrincipal()
+					.getName(), Calendar.getInstance().getTime());
+		}
         em.merge(entity);
     }
     /**

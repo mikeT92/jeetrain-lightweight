@@ -6,11 +6,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.Conversation;
-import javax.enterprise.context.ConversationScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.flow.FlowScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -27,13 +25,10 @@ import edu.hm.cs.fwp.jeetrain.business.users.entity.User;
  * @since release 1.0 09.01.2011 21:18:48
  */
 @Named("userEditor")
-@ConversationScoped
+@FlowScoped("registerUser")
 public class UserEditorBean implements Serializable {
 
 	private static final long serialVersionUID = -7705879532390689681L;
-
-	@Inject
-	private Conversation conversation;
 
 	/**
 	 * Boundary {@code UserRegistration} that handles the user registration
@@ -87,23 +82,10 @@ public class UserEditorBean implements Serializable {
 	}
 
 	/**
-	 * Starts a conversation if necessary when this managed bean has been
-	 * constructed.
-	 */
-	@PostConstruct
-	public void onPostConstruct() {
-		System.out.println("userEditor.onPostConstruct");
-		if (this.conversation.isTransient()) {
-			this.conversation.begin();
-		}
-	}
-
-	/**
 	 * Handles PreRenderView component system events by either creating a new
 	 * user or loading an existing user depending on the view parameter userId.
 	 */
 	public void onPreRenderView() {
-		System.out.println("userEditor.onPreRenderView");
 		if (this.user == null) {
 			if (this.userId == null) {
 				this.user = new User();
@@ -141,14 +123,15 @@ public class UserEditorBean implements Serializable {
 							"Please select at least one role.", null));
 			return null;
 		}
-		this.user = this.boundary.registerUser(this.user);
 		return "confirmUser?faces-redirect=true";
 	}
 
 	public String confirm() {
-		if (!this.conversation.isTransient()) {
-			this.conversation.end();
-		}
-		return "login";
+		this.user = this.boundary.registerUser(this.user);
+		return "returnFromRegisterUser";
+	}
+	
+	public String cancel() {
+		return "returnFromRegisterUser";
 	}
 }
