@@ -29,7 +29,7 @@ import edu.hm.cs.fwp.jeetrain.framework.web.flow.view.ViewReference;
  * @since release 1.0 25.01.2012 15:18:15
  */
 @Named("flowConfigRepository")
-public final class FlowConfigRepositoryBean implements FlowConfigRepository {
+public class FlowConfigRepositoryBean implements FlowConfigRepository {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 

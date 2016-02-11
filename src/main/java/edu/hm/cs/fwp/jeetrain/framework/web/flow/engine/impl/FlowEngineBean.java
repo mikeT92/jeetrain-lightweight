@@ -30,7 +30,7 @@ import edu.hm.cs.fwp.jeetrain.framework.web.flow.view.ViewReference;
  * @since release 1.0 25.01.2012 17:33:45
  */
 @Named
-public final class FlowEngineBean implements FlowRequestInterceptor, FlowNavigationHandler {
+public class FlowEngineBean implements FlowRequestInterceptor, FlowNavigationHandler {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 

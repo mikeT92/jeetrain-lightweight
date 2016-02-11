@@ -5,7 +5,6 @@ package edu.hm.cs.fwp.jeetrain.framework.web.flow.faces;
 import java.util.Map;
 import java.util.Set;
 
-import javax.enterprise.inject.spi.CDI;
 import javax.faces.FacesException;
 import javax.faces.application.ConfigurableNavigationHandler;
 import javax.faces.application.NavigationCase;

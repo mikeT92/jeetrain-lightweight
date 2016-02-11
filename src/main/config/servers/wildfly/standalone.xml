@@ -165,7 +165,7 @@
                         <set-tx-query-timeout>false</set-tx-query-timeout>
                         <blocking-timeout-millis>0</blocking-timeout-millis>
                         <idle-timeout-minutes>0</idle-timeout-minutes>
-                        <query-timeout>0</query-timeout>
+                        <query-timeout>0</query-timeout> 
                         <use-try-lock>0</use-try-lock>
                         <allocation-retry>0</allocation-retry>
                         <allocation-retry-wait-millis>0</allocation-retry-wait-millis>
