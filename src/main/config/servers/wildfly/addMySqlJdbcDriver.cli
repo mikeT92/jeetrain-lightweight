@@ -1,2 +1,0 @@
-deploy ..\..\databases\mysql\jdbc\mysql-connector-java-5.1.35-bin.jar --force
-

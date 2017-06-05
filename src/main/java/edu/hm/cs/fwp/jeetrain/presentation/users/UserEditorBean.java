@@ -8,24 +8,25 @@ import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.faces.flow.FlowScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import edu.hm.cs.fwp.jeetrain.business.users.boundary.UserRegistration;
+import edu.hm.cs.fwp.jeetrain.business.users.boundary.UserRegistrationBean;
 import edu.hm.cs.fwp.jeetrain.business.users.entity.Role;
 import edu.hm.cs.fwp.jeetrain.business.users.entity.Roles;
 import edu.hm.cs.fwp.jeetrain.business.users.entity.User;
 
 /**
+ * 
  * Managed bean handling all user interactions related to user registration.
  * 
- * @author P534184
- * @version %PR% %PRT% %PO%
- * @since release 1.0 09.01.2011 21:18:48
+ * @author theism
+ * @version 1.0
+ * @since 09.01.2011 21:18:48
  */
 @Named("userEditor")
-@FlowScoped("registerUser")
+@ViewScoped
 public class UserEditorBean implements Serializable {
 
 	private static final long serialVersionUID = -7705879532390689681L;
@@ -35,7 +36,7 @@ public class UserEditorBean implements Serializable {
 	 * process.
 	 */
 	@Inject
-	private UserRegistration boundary;
+	private UserRegistrationBean boundary;
 
 	/**
 	 * Unique identifier of the user the editor currently works on. (view
@@ -98,39 +99,28 @@ public class UserEditorBean implements Serializable {
 
 	public String register() {
 		if (!this.boundary.isUserNameAvailable(this.user.getUserName())) {
-			FacesContext.getCurrentInstance().addMessage(
-					"userName",
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Username ["
-							+ user.getUserName()
-							+ "] is already used by another user.", null));
+			FacesContext.getCurrentInstance().addMessage("userName", new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					"Username [" + user.getUserName() + "] is already used by another user.", null));
 			return null;
 		}
 		if (!this.user.getPassword().equals(this.user.getConfirmedPassword())) {
-			FacesContext
-					.getCurrentInstance()
-					.addMessage(
-							"password",
-							new FacesMessage(
-									FacesMessage.SEVERITY_ERROR,
-									"Password and confirmed password must match.",
-									null));
+			FacesContext.getCurrentInstance().addMessage("password",
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Password and confirmed password must match.", null));
 			return null;
 		}
 		if (this.user.getRoles().isEmpty()) {
-			FacesContext.getCurrentInstance().addMessage(
-					"roles",
-					new FacesMessage(FacesMessage.SEVERITY_ERROR,
-							"Please select at least one role.", null));
+			FacesContext.getCurrentInstance().addMessage("roles",
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Please select at least one role.", null));
 			return null;
 		}
-		return "confirmUser?faces-redirect=true";
+		this.user = this.boundary.registerUser(this.user);
+		return "confirmUser?faces-redirect=true&userId=" + this.user.getUserName();
 	}
 
 	public String confirm() {
-		this.user = this.boundary.registerUser(this.user);
-		return "returnFromRegisterUser";
+		return "/home/home?faces-redirect=true";
 	}
-	
+
 	public String cancel() {
 		return "returnFromRegisterUser";
 	}

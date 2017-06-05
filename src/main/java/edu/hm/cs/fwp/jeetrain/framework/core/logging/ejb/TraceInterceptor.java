@@ -8,7 +8,6 @@ import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.ejb.SessionContext;
 import javax.interceptor.AroundInvoke;
-import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
 
 /**
@@ -25,7 +24,7 @@ import javax.interceptor.InvocationContext;
 public class TraceInterceptor {
 
 	private final Logger logger = Logger.getLogger("EJBTrace");
-	
+
 	// private final Log logger = LogFactory.getLog("EJBTrace");
 
 	private static final String DEFAULT_EYE_CATCHER = "*** EJBTrace ***";
@@ -39,7 +38,7 @@ public class TraceInterceptor {
 
 	@Resource
 	private SessionContext context;
-	
+
 	@AroundInvoke
 	public Object handleInvocation(InvocationContext invocation) throws Exception {
 		if (isTraceEnabled()) {
@@ -90,7 +89,7 @@ public class TraceInterceptor {
 	private void traceEnterMethod(InvocationContext invocation) {
 		StringBuilder writer = new StringBuilder();
 		appendEnterMethodEntry(writer, invocation);
-		logger.finer(ensureMaxMessageLength(writer.toString()));
+		logger.info(ensureMaxMessageLength(writer.toString()));
 	}
 
 	/**
@@ -100,7 +99,7 @@ public class TraceInterceptor {
 	private void traceExitMethod(Object returnValue, InvocationContext invocation, long duration) {
 		StringBuilder writer = new StringBuilder();
 		appendExitMethodEntry(writer, invocation, returnValue, duration);
-		logger.finer(ensureMaxMessageLength(writer.toString()));
+		logger.info(ensureMaxMessageLength(writer.toString()));
 	}
 
 	/**
@@ -162,8 +161,8 @@ public class TraceInterceptor {
 	/**
 	 * Writes the exit method trace entry to the given writer.
 	 */
-	private StringBuilder appendExitMethodEntry(StringBuilder writer, InvocationContext invocation,
-			Object returnValue, long duration) {
+	private StringBuilder appendExitMethodEntry(StringBuilder writer, InvocationContext invocation, Object returnValue,
+			long duration) {
 		appendPrefix(writer, invocation);
 		writer.append("returned with return value [");
 		appendReturnValue(returnValue, invocation, writer);
@@ -177,8 +176,7 @@ public class TraceInterceptor {
 	 * Writes the return value of the called service operation to the given
 	 * writer. Arrays of primitive types are ignored.
 	 */
-	private StringBuilder appendReturnValue(Object returnValue, InvocationContext invocation,
-			StringBuilder writer) {
+	private StringBuilder appendReturnValue(Object returnValue, InvocationContext invocation, StringBuilder writer) {
 
 		if (returnValue != null && returnValue.getClass().isArray()) {
 			if (returnValue instanceof Object[]) {
@@ -237,9 +235,8 @@ public class TraceInterceptor {
 	private String ensureMaxMessageLength(String message) {
 		String result = message;
 		if (MAX_RETURN_VALUE_LENGTH < message.length()) {
-			result =
-					message.substring(0, MAX_RETURN_VALUE_LENGTH) + "... (truncated "
-							+ message.length() + " characters)";
+			result = message.substring(0, MAX_RETURN_VALUE_LENGTH) + "... (truncated " + message.length()
+					+ " characters)";
 		}
 		return result;
 	}

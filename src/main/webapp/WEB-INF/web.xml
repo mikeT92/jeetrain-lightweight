@@ -20,11 +20,13 @@
 		<param-name>javax.faces.INTERPRET_EMPTY_STRING_SUBMITTED_VALUES_AS_NULL</param-name>
 		<param-value>true</param-value>
 	</context-param>
+	<!-- 
 	<context-param>
 		<description>Veranlasst JSF, das aktuelle Fenster über die URL zu bestimmen</description>
 		<param-name>javax.faces.CLIENT_WINDOW_MODE</param-name>
 		<param-value>url</param-value>
 	</context-param>
+	 -->
 	<!-- 
 	<context-param>
 		<param-name>primefaces.THEME</param-name>
@@ -32,13 +34,15 @@
 	</context-param>
 	 -->
 	<welcome-file-list>
-		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>index.jsf</welcome-file>
 	</welcome-file-list>
 	<security-constraint>
 		<web-resource-collection>
 			<web-resource-name>ProtectedPages</web-resource-name>
 			<url-pattern>/home/*</url-pattern>
 			<url-pattern>/tasks/*</url-pattern>
+			<http-method>GET</http-method>
+			<http-method>POST</http-method>
 		</web-resource-collection>
 		<auth-constraint>
 			<role-name>JEETRAIN_USER</role-name>
@@ -49,7 +53,7 @@
 	</security-constraint>
 	<login-config>
 		<auth-method>FORM</auth-method>
-		<realm-name>JEETRAIN-REALM</realm-name>
+		<realm-name>JEETRAIN_REALM</realm-name>
 		<form-login-config>
 			<form-login-page>/login/login.jsf</form-login-page>
 			<form-error-page>/login/login.jsf</form-error-page>

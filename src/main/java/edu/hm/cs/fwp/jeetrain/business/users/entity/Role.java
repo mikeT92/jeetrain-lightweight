@@ -12,11 +12,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.TableGenerator;
 
 /**
  * Role that can be assigned to a JEETRAIN user.
- *  
+ * 
  * @author Michael Theis
  */
 @Entity
@@ -26,11 +25,10 @@ public class Role implements Serializable {
 	private static final long serialVersionUID = 8985105701544649718L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.TABLE, generator="Role.id.generator")
-	@TableGenerator(name="Role.id.generator", table="T_SEQUENCE")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ROLE_ID")
 	private long roleId;
-	
+
 	@Column(name = "ROLE_NAME")
 	@Enumerated(EnumType.STRING)
 	private Roles roleName;
@@ -41,7 +39,7 @@ public class Role implements Serializable {
 	public Role(Roles roleName) {
 		this.roleName = roleName;
 	}
-	
+
 	public void setRoleId(long roleId) {
 		this.roleId = roleId;
 	}

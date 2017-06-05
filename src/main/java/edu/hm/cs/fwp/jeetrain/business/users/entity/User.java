@@ -13,14 +13,11 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -38,8 +35,7 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "T_USER")
-@NamedQueries({
-		@NamedQuery(name = User.QUERY_ALL, query = "SELECT u FROM User u ORDER BY u.fullName"),
+@NamedQueries({ @NamedQuery(name = User.QUERY_ALL, query = "SELECT u FROM User u ORDER BY u.fullName"),
 		@NamedQuery(name = User.COUNT_ALL, query = "SELECT COUNT(u) FROM User u"),
 		@NamedQuery(name = User.QUERY_BY_NAME, query = "SELECT u FROM User u LEFT JOIN FETCH u.roles WHERE u.userName = :userName") })
 public class User implements Serializable {
@@ -111,22 +107,17 @@ public class User implements Serializable {
 	@Column(name = "VERSION")
 	private long version;
 
-	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
+	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
 	@JoinColumn(name = "USER_ID")
-	@NotNull
-	@Size(min = 1)
 	private Set<Role> roles = new HashSet<Role>();
 
-	
 	public String getUserName() {
 		return userName;
 	}
 
-
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-
 
 	public String getPassword() {
 		return password;
@@ -212,7 +203,6 @@ public class User implements Serializable {
 		this.mobile = mobile;
 	}
 
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -220,7 +210,6 @@ public class User implements Serializable {
 		result = prime * result + userName.hashCode();
 		return result;
 	}
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -239,7 +228,6 @@ public class User implements Serializable {
 		return true;
 	}
 
-
 	/**
 	 * @see java.lang.Object#toString()
 	 */
@@ -247,7 +235,7 @@ public class User implements Serializable {
 	public String toString() {
 		StringBuilder result = new StringBuilder();
 		result.append(getClass().getSimpleName()).append(" {");
-		result.append(" id:").append(getUserName());
+		result.append(" id:\"").append(getUserName()).append("\"");
 		result.append(" }");
 		return result.toString();
 	}

@@ -1,19 +1,15 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:f="http://java.sun.com/jsf/core">
-
-<f:loadBundle basename="resources.application" var="msg"/>
-
-<head>
-    <title><h:outputText value="#{msg.welcomeTitle}" /></title>
-</head>
-
-<body>
-<h3><h:outputText value="#{msg.welcomeHeading}" /></h3>
-<p><h:outputText value="#{msg.welcomeMessage}" /></p>
-</body>
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+<f:metadata>
+	<f:viewAction action="/home/home?faces-redirect=true" />
+</f:metadata>	
+<h:head>
+	<title><h:outputText value="JEETrain Demo Applikation (redirect)" /></title>
+</h:head>
+<h:body>
+	<p>Sie werden auf die Homepage der JEETrain Demo Applikation umgeleitet...</p>
+</h:body>
 </html>

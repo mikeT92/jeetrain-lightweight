@@ -15,7 +15,6 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
@@ -33,8 +32,7 @@ import edu.hm.cs.fwp.jeetrain.framework.core.persistence.AuditableEntity;
  */
 @Entity
 @Table(name = "T_TASK")
-@NamedQueries({
-		@NamedQuery(name = Task.QUERY_ALL, query = "SELECT t FROM Task t ORDER BY t.id"),
+@NamedQueries({ @NamedQuery(name = Task.QUERY_ALL, query = "SELECT t FROM Task t ORDER BY t.id"),
 		@NamedQuery(name = Task.COUNT_ALL, query = "SELECT COUNT(t) FROM Task t") })
 public class Task implements Serializable, AuditableEntity {
 
@@ -48,8 +46,7 @@ public class Task implements Serializable, AuditableEntity {
 	 * Unique identifier of this task.
 	 */
 	@Id
-	@GeneratedValue(strategy = GenerationType.TABLE, generator="Task.id.generator")
-	@TableGenerator(name="Task.id.generator", table="T_SEQUENCE")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "TASK_ID")
 	private long id;
 
@@ -390,6 +387,7 @@ public class Task implements Serializable, AuditableEntity {
 	/**
 	 * @see edu.hm.cs.fwp.jeetrain.framework.core.persistence.AuditableEntity#getCreatorId()
 	 */
+	@Override
 	public String getCreatorId() {
 		return this.creatorId;
 	}
@@ -397,6 +395,7 @@ public class Task implements Serializable, AuditableEntity {
 	/**
 	 * @see edu.hm.cs.fwp.jeetrain.framework.core.persistence.AuditableEntity#getCreationDate()
 	 */
+	@Override
 	public Date getCreationDate() {
 		return this.creationDate;
 	}
@@ -405,6 +404,7 @@ public class Task implements Serializable, AuditableEntity {
 	 * @see edu.hm.cs.fwp.jeetrain.framework.core.persistence.AuditableEntity#trackCreation(java.lang.String,
 	 *      java.util.Date)
 	 */
+	@Override
 	public void trackCreation(String creatorId, Date creationDate) {
 		if (this.creatorId != null || this.creationDate != null) {
 			throw new IllegalStateException(
@@ -418,6 +418,7 @@ public class Task implements Serializable, AuditableEntity {
 	/**
 	 * @see edu.hm.cs.fwp.jeetrain.framework.core.persistence.AuditableEntity#getLastModifierId()
 	 */
+	@Override
 	public String getLastModifierId() {
 		return this.lastModifierId;
 	}
@@ -425,6 +426,7 @@ public class Task implements Serializable, AuditableEntity {
 	/**
 	 * @see edu.hm.cs.fwp.jeetrain.framework.core.persistence.AuditableEntity#getLastModificationDate()
 	 */
+	@Override
 	public Date getLastModificationDate() {
 		return this.lastModificationDate;
 	}
@@ -433,8 +435,8 @@ public class Task implements Serializable, AuditableEntity {
 	 * @see edu.hm.cs.fwp.jeetrain.framework.core.persistence.AuditableEntity#trackModification(java.lang.String,
 	 *      java.util.Date)
 	 */
-	public void trackModification(String lastModifierId,
-			Date lastModificationDate) {
+	@Override
+	public void trackModification(String lastModifierId, Date lastModificationDate) {
 		this.lastModificationDate = lastModificationDate;
 		this.lastModifierId = lastModifierId;
 	}
@@ -472,7 +474,6 @@ public class Task implements Serializable, AuditableEntity {
 	 */
 	@Override
 	public String toString() {
-		return getClass().getSimpleName() + " { id : " + this.id
-				+ ", version : " + this.version + " }";
+		return getClass().getSimpleName() + " { id : " + this.id + ", version : " + this.version + " }";
 	}
 }

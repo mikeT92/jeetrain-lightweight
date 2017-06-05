@@ -4,13 +4,13 @@
 	View to register a new user 
  -->
 <f:view xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui" >
 	<f:metadata>
 		<f:viewParam name="userId" value="#{userEditor.userId}" />
-		<f:event type="preRenderView" listener="#{userEditor.onPreRenderView}" />
+		<f:viewAction action="#{userEditor.onPreRenderView}" />
 	</f:metadata>
 	<ui:composition template="/resources/jeetrain/layouts/masterNoNavigation.xhtml">
 		<ui:define name="pageTitle">JEETrain: Register User</ui:define>
