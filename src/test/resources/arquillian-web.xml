@@ -25,4 +25,8 @@
 		<param-name>javax.faces.CLIENT_WINDOW_MODE</param-name>
 		<param-value>url</param-value>
 	</context-param>
+	<login-config>
+		<auth-method>BASIC</auth-method>
+		<realm-name>JEETRAIN_REALM</realm-name>
+	</login-config>
 </web-app> 

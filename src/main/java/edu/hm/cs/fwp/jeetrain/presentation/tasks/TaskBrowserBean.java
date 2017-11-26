@@ -12,7 +12,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import edu.hm.cs.fwp.jeetrain.business.tasks.boundary.TaskManager;
+import edu.hm.cs.fwp.jeetrain.business.tasks.boundary.TaskManagerBean;
 import edu.hm.cs.fwp.jeetrain.business.tasks.entity.Task;
 import edu.hm.cs.fwp.jeetrain.framework.web.faces.component.datatable.SelectableDataTableModel;
 
@@ -28,14 +28,14 @@ import edu.hm.cs.fwp.jeetrain.framework.web.faces.component.datatable.Selectable
 public class TaskBrowserBean implements Serializable {
 
 	private static final Logger LOGGER = Logger.getLogger(TaskBrowserBean.class.getName());
-	
+
 	private static final long serialVersionUID = -4264634758367258630L;
 
 	@Inject
-	private TaskManager boundary;
+	private TaskManagerBean boundary;
 
 	private List<Task> tasks;
-	
+
 	private SelectableDataTableModel<Task> taskModel;
 
 	// event handlers --------------------------------------------------------
@@ -93,13 +93,11 @@ public class TaskBrowserBean implements Serializable {
 	}
 
 	public String editTask() {
-		return "editTask?faces-redirect=true" + "&taskId="
-				+ this.taskModel.getSelectedRow().getId();
+		return "editTask?faces-redirect=true" + "&taskId=" + this.taskModel.getSelectedRow().getId();
 	}
 
 	public String viewTask() {
-		return "viewTask?faces-redirect=true" + "&taskId="
-				+ this.taskModel.getSelectedRow().getId();
+		return "viewTask?faces-redirect=true" + "&taskId=" + this.taskModel.getSelectedRow().getId();
 	}
 
 	public String deleteTask() {

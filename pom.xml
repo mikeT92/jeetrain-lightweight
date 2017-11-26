@@ -16,12 +16,12 @@
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<!-- MySQL properties -->
-		<mysql.version>5.1.38</mysql.version>
+		<mysql.version>5.1.44</mysql.version>
 		<mysql.host>192.168.99.100</mysql.host>
-		<mysql.admin.user>root</mysql.admin.user>
-		<mysql.admin.password>rootLocal2017</mysql.admin.password>
+		<mysql.admin.user>jeetrain</mysql.admin.user>
+		<mysql.admin.password>fwpss2018</mysql.admin.password>
 		<mysql.driver.classname>com.mysql.jdbc.Driver</mysql.driver.classname>
-		<mysql.url>jdbc:mysql://${mysql.host}:13306/jeetrain_db?useSSL=false</mysql.url>
+		<mysql.url>jdbc:mysql://${mysql.host}:3306/jeetrain_db?useSSL=false</mysql.url>
 	</properties>
 	<dependencyManagement>
 		<dependencies>

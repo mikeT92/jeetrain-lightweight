@@ -1,0 +1,31 @@
+# docker-compose.yml
+# ----------------------------------------------------------------------------
+# Composes Docker containers and volumes to a runnable MySQL database
+# ----------------------------------------------------------------------------
+#
+---
+version: '2'
+
+services:
+
+  mysql-jeetrain:
+    image: mysql:5.7
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-jeetrain-data:/var/lib/mysql
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+      MYSQL_USER: jeetrain
+      MYSQL_PASSWORD: fwpss2018
+      MYSQL_DATABASE: jeetrain_db
+      
+volumes:
+
+  mysql-jeetrain-data:
+
+
+
+
+
+  

@@ -1,4 +1,4 @@
-package edu.hm.cs.fwp.jeetrain.integration.tasks;
+package edu.hm.cs.fwp.jeetrain.business.tasks.boundary;
 
 import edu.hm.cs.fwp.jeetrain.business.tasks.entity.Task;
 

@@ -5,13 +5,11 @@ package edu.hm.cs.fwp.jeetrain.presentation.tasks;
 import java.io.Serializable;
 
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import edu.hm.cs.fwp.jeetrain.business.tasks.boundary.TaskManager;
+import edu.hm.cs.fwp.jeetrain.business.tasks.boundary.TaskManagerBean;
 import edu.hm.cs.fwp.jeetrain.business.tasks.entity.Task;
 import edu.hm.cs.fwp.jeetrain.business.tasks.entity.TaskCategory;
 import edu.hm.cs.fwp.jeetrain.business.tasks.entity.TaskPriority;
@@ -30,7 +28,7 @@ public class TaskEditorBean implements Serializable {
 	private static final long serialVersionUID = -8252721628528236785L;
 
 	@Inject
-	private TaskManager boundary;
+	private TaskManagerBean boundary;
 
 	private long taskId;
 

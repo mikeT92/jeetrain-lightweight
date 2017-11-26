@@ -11,9 +11,8 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
-import org.jboss.shrinkwrap.api.spec.JavaArchive;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.After;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -28,18 +27,20 @@ import edu.hm.cs.fwp.jeetrain.framework.core.persistence.GenericRepositoryBean;
 public class UserRegistrationBeanComponentTest {
 
 	/**
-	 * Baut ein EJB-JAR mit den zu testenden Klassen.
+	 * Baut ein WAR-Modul mit den zu testenden Klassen.
 	 * 
-	 * @return EJB-Modul
+	 * @return WAR-Modul
 	 */
 	@Deployment
-	public static JavaArchive createDeployment() {
-		JavaArchive ejbModule = ShrinkWrap.create(JavaArchive.class).addPackage(User.class.getPackage())
+	public static WebArchive createDeployment() {
+		WebArchive webModule = ShrinkWrap.create(WebArchive.class).addPackage(User.class.getPackage())
 				.addClass(UserRegistrationBean.class).addClass(TraceInterceptor.class)
 				.addClass(PasswordEncoderBean.class).addPackage(GenericRepositoryBean.class.getPackage())
 				.addClass(UserBuilder.class).addAsResource("arquillian-persistence.xml", "META-INF/persistence.xml")
-				.addAsResource(EmptyAsset.INSTANCE, "META-INF/beans.xml");
-		return ejbModule;
+				.addAsResource(EmptyAsset.INSTANCE, "META-INF/beans.xml")
+				.addAsWebInfResource("arquillian-web.xml", "web.xml")
+				.addAsWebInfResource("arquillian-glassfish-web.xml", "glassfish-web.xml");
+		return webModule;
 	}
 
 	@Inject
@@ -60,7 +61,6 @@ public class UserRegistrationBeanComponentTest {
 	}
 
 	@Test
-	@Ignore
 	public void addUserStoresAllFields() {
 		User newUser = new UserBuilder().build();
 		this.underTest.registerUser(newUser);
@@ -80,7 +80,6 @@ public class UserRegistrationBeanComponentTest {
 	}
 
 	@Test
-	@Ignore
 	public void isUserNameAvailableReturnsFalseOnExistingUser() {
 		User newUser = new UserBuilder().build();
 		this.underTest.registerUser(newUser);
@@ -90,7 +89,6 @@ public class UserRegistrationBeanComponentTest {
 	}
 
 	@Test
-	@Ignore
 	public void isUserNameAvailableReturnsTrueOnNotExistingUser() {
 		assertTrue("Username not taken by any registered user is available",
 				this.underTest.isUserNameAvailable("blabla"));
@@ -99,12 +97,13 @@ public class UserRegistrationBeanComponentTest {
 	@Test
 	public void loginWithRegisteredUserSucceeds() throws Exception {
 		User newUser = new UserBuilder().build();
+		String unhashedPassword = newUser.getPassword();
 		this.underTest.registerUser(newUser);
 		this.trashBin.add(newUser);
 
+		// authenticator.login(newUser.getUserName(), newUser.getPassword());
 		ProgrammaticLogin login = new ProgrammaticLogin();
-		Boolean succeeded = login.login(newUser.getUserName(), newUser.getPassword().toCharArray(), "JEETRAIN_REALM",
-				true);
+		Boolean succeeded = login.login(newUser.getUserName(), unhashedPassword.toCharArray(), "JEETRAIN_REALM", true);
 		assertEquals("Login succeeded with registered user", Boolean.TRUE, succeeded);
 	}
 }

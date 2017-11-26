@@ -24,9 +24,9 @@ import javax.validation.constraints.Size;
 import edu.hm.cs.fwp.jeetrain.framework.core.persistence.AuditableEntity;
 
 /**
- * {@code Entity} type that represents tasks.
+ * {@code Entity} representing a tasks.
  * 
- * @author p534184
+ * @author mtheis
  * @version %PR% %PRT% %PO%
  * @since release 1.0 29.10.2012 17:27:22
  */
@@ -204,7 +204,7 @@ public class Task implements Serializable, AuditableEntity {
 	 * User ID of the user who created this entity.
 	 */
 	@Size(max = 16)
-	@Column(name = "CREATOR_ID")
+	@Column(name = "CREATOR_USER_ID")
 	private String creatorId;
 
 	/**
@@ -218,7 +218,7 @@ public class Task implements Serializable, AuditableEntity {
 	 * User ID of the user who modified this entity.
 	 */
 	@Size(max = 16)
-	@Column(name = "LAST_MODIFIER_ID")
+	@Column(name = "LAST_MODIFIER_USER_ID")
 	private String lastModifierId;
 
 	/**
@@ -230,10 +230,6 @@ public class Task implements Serializable, AuditableEntity {
 
 	public long getId() {
 		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
 	}
 
 	public String getSubject() {
