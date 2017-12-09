@@ -27,7 +27,7 @@
 		<dependencies>
 			<dependency>
 				<groupId>edu.hm.cs.fwp.bom</groupId>
-				<artifactId>jee7-payara4-bom</artifactId>
+				<artifactId>jee8-glassfish5-bom</artifactId>
 				<version>1.0.0</version>
 				<type>pom</type>
 				<scope>import</scope>
@@ -38,11 +38,6 @@
 		<dependency>
 			<groupId>javax</groupId>
 			<artifactId>javaee-api</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>javax</groupId>
-			<artifactId>javaee-endorsed-api</artifactId>
 			<scope>provided</scope>
 		</dependency>
 		<!-- Logging using SLF4J over JUL -->
@@ -65,8 +60,8 @@
 		</dependency>
 		<!-- Payara JEE7 runtime for testing purposes -->
 		<dependency>
-			<groupId>fish.payara.extras</groupId>
-			<artifactId>payara-embedded-all</artifactId>
+			<groupId>org.glassfish.main.extras</groupId>
+			<artifactId>glassfish-embedded-all</artifactId>
 			<scope>test</scope>
 		</dependency>
 		<!-- Test runtime dependencies -->
@@ -137,7 +132,7 @@
 			</plugins>
 		</pluginManagement>
 		<plugins>
-				<!-- Flyway Maven Plugin für das Aufsetzen/Migrieren des Schemas in der Datenbank jeetrain_db -->
+			<!-- Flyway Maven Plugin für das Aufsetzen/Migrieren des Schemas in der Datenbank jeetrain_db -->
 			<plugin>
 				<groupId>org.flywaydb</groupId>
 				<artifactId>flyway-maven-plugin</artifactId>
