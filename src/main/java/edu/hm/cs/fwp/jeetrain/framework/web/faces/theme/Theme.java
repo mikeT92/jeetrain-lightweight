@@ -8,9 +8,9 @@ import java.io.Serializable;
 /**
  * Value class representing a theme that control the visual look-and-feel of an
  * application.
- * 
- * @author Mike
- * @version %PR% %PRT% %PO%
+ *
+ * @author mtheis
+ * @version 1.0.0
  * @since release 1.0 27.03.2012 16:30:27
  */
 public final class Theme implements Serializable {
@@ -30,7 +30,7 @@ public final class Theme implements Serializable {
 	private final String scriptsPath;
 
 	public Theme(String name, String libraryName, String templatesPath, String imagesPath,
-			String stylesPath, String scriptsPath) {
+				 String stylesPath, String scriptsPath) {
 		this.name = name;
 		this.libraryName = libraryName;
 		this.templatesPath = templatesPath;

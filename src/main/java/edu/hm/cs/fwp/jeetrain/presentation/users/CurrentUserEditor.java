@@ -17,7 +17,7 @@ import edu.hm.cs.fwp.jeetrain.business.users.entity.User;
 /**
  * Editor that manages the current user section within the page header.
  * 
- * @author theism
+ * @author mtheis
  * @version 1.0
  * @since 05.06.2017
  */

@@ -12,12 +12,14 @@ import java.util.TimeZone;
 import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.SessionScoped;
+import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
 import javax.faces.application.ProjectStage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import javax.inject.Inject;
+import javax.inject.Named;
 
 import org.apache.commons.lang3.LocaleUtils;
 
@@ -39,7 +41,7 @@ import org.apache.commons.lang3.LocaleUtils;
  * @version %PR% %PRT% %PO%
  * @since release 1.0
  */
-@ManagedBean(name = "i18n")
+@Named("i18n")
 @SessionScoped
 public class I18nBean implements Serializable {
 
@@ -68,8 +70,7 @@ public class I18nBean implements Serializable {
 	@PostConstruct
 	public void onPostConstruct() {
 
-		final FacesContext facesContext = FacesContext.getCurrentInstance();
-
+		FacesContext facesContext = FacesContext.getCurrentInstance();
 		Locale defaultLocale = facesContext.getApplication().getDefaultLocale();
 		if (defaultLocale != null) {
 			this.supportedLocales.add(new SelectItem(defaultLocale.toString(), defaultLocale

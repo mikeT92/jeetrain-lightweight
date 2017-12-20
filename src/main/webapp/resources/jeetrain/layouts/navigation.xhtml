@@ -18,8 +18,10 @@
 			<p:submenu label="Tasks">
 				<p:menuitem value="Browse Tasks" action="/tasks/browseTasks?faces-redirect=true" />
 			</p:submenu>
-			<p:menuitem value="Support" url="/home/support.jsf" />
-			<p:menuitem value="Contact" url="/home/contact.jsf" />
+			<p:submenu value="User">
+				<p:menuitem value="Change Language" action="#{i18n.switchLocale}" />
+				<p:menuitem value="Change Theme" action="#{themes.switchTheme}" />
+			</p:submenu>
 		</p:menubar>
 	</h:form>
 </ui:composition>

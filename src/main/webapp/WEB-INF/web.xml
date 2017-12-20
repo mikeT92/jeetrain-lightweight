@@ -27,12 +27,10 @@
 		<param-value>url</param-value>
 	</context-param>
 	 -->
-	<!-- 
 	<context-param>
 		<param-name>primefaces.THEME</param-name>
-		<param-value>#{themes.currentTheme.name}</param-value>
+		<param-value>${themes.current}</param-value>
 	</context-param>
-	 -->
 	<welcome-file-list>
 		<welcome-file>index.jsf</welcome-file>
 	</welcome-file-list>
