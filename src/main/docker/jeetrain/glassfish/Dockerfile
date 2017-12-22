@@ -18,4 +18,7 @@ RUN yum -y install unzip \
 # Copy project-specific service configuration file
 COPY domain.xml $GLASSFISH_HOME/glassfish/domains/domain1/config/
 
+# Expose server autodeploy folder as volume
+VOLUME $GLASSFISH_HOME/glassfish/domains/domain1/autodeploy
+
 
