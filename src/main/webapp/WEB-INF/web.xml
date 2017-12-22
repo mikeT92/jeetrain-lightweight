@@ -10,11 +10,13 @@
 		<param-value>resources.application</param-value>
 	</context-param>
 	<!-- JSF context parameters -->
+	<!--
 	<context-param>
 		<description>Stellt JSF auf die korrekte Projektstufe ein (Development..Production)</description>
 		<param-name>java.faces.PROJECT_STAGE</param-name>
 		<param-value>Development</param-value>
 	</context-param>
+	-->
 	<context-param>
 		<description>Veranlasst JSF, leere Stringwerte wie null-Werte zu behandeln (wichtig für Bean Validation)</description>
 		<param-name>javax.faces.INTERPRET_EMPTY_STRING_SUBMITTED_VALUES_AS_NULL</param-name>
@@ -29,7 +31,7 @@
 	 -->
 	<context-param>
 		<param-name>primefaces.THEME</param-name>
-		<param-value>${themes.current}</param-value>
+		<param-value>blitzer</param-value>
 	</context-param>
 	<welcome-file-list>
 		<welcome-file>index.jsf</welcome-file>

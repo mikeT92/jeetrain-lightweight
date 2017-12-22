@@ -21,6 +21,6 @@ public class StaticThemeRepository implements ThemeRepository {
 		result.add(new Theme(
 				"bootstrap", "primefaces-bootstrap", "/resources/primefaces-bootstrap/layouts", "images",
 				"styles", "scripts"));
-		return null;
+		return result;
 	}
 }

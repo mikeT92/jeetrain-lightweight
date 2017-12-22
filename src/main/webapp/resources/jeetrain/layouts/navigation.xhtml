@@ -18,10 +18,18 @@
 			<p:submenu label="Tasks">
 				<p:menuitem value="Browse Tasks" action="/tasks/browseTasks?faces-redirect=true" />
 			</p:submenu>
-			<p:submenu value="User">
-				<p:menuitem value="Change Language" action="#{i18n.switchLocale}" />
-				<p:menuitem value="Change Theme" action="#{themes.switchTheme}" />
+			<p:submenu label="User" icon="ui-icon-user" >
 			</p:submenu>
+			<f:facet name="options">
+				<p:themeSwitcher id="themeSwitcher" value="#{themes.selected}">
+					<f:selectItem itemLabel="Choose theme..." />
+					<f:selectItems value="#{themes.availableThemes}" var="currentTheme" itemLabel="#{currentTheme.name}" itemValue="#{currentTheme.name}" />
+				</p:themeSwitcher>
+				<p:selectOneMenu id="localeSwitcher" value="#{i18n.selectedLocale}">
+					<f:selectItem itemLabel="Choose locale..." />
+					<f:selectItems value="#{i18n.supportedLocales}" />
+				</p:selectOneMenu>
+			</f:facet>
 		</p:menubar>
 	</h:form>
 </ui:composition>

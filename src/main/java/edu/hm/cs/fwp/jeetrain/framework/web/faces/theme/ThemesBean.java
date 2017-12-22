@@ -2,6 +2,9 @@
  */
 package edu.hm.cs.fwp.jeetrain.framework.web.faces.theme;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
@@ -28,6 +31,8 @@ public class ThemesBean implements Serializable {
 
 	private static final long serialVersionUID = 5252485484727620L;
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(ThemesBean.class);
+
 	@Inject
 	private transient ThemeRepository themeRepository;
 
@@ -49,6 +54,7 @@ public class ThemesBean implements Serializable {
 	@PostConstruct
 	public void onPostConstruct() {
 		List<Theme> availableThemes = this.themeRepository.getAvailableThemes();
+		LOGGER.info("Found [{}] available themes", availableThemes.size());
 		availableThemes.forEach(
 				t -> this.supportedThemes.add(new SelectItem(t.getName(), t.getLibraryName()))
 		);
@@ -56,6 +62,7 @@ public class ThemesBean implements Serializable {
 				t -> this.themesByName.put(t.getName(), t)
 		);
 		this.current = availableThemes.get(0);
+        LOGGER.info("Using theme [{}] as current theme", this.current);
 	}
 
 	/**
@@ -77,6 +84,11 @@ public class ThemesBean implements Serializable {
 	 * Returns the list of supported themes to rendered in a combobox.
 	 */
 	public List<SelectItem> getSupportedThemes() {
+		List<Theme> themes = this.themeRepository.getAvailableThemes();
+		List<SelectItem> result = new ArrayList<>();
+		for (Theme currentTheme : themes) {
+			result.add(new SelectItem(currentTheme.getName(), currentTheme.getName()));
+		}
 		return this.supportedThemes;
 	}
 
