@@ -16,19 +16,28 @@
 				<p:menuitem value="Browse Users" url="browseUsers" />
 			</p:submenu>
 			<p:submenu label="Tasks">
-				<p:menuitem value="Browse Tasks" action="/tasks/browseTasks?faces-redirect=true" />
-			</p:submenu>
-			<p:submenu label="User" icon="ui-icon-user" >
+				<p:menuitem value="Browse Tasks"
+					action="/tasks/browseTasks?faces-redirect=true" />
 			</p:submenu>
 			<f:facet name="options">
-				<p:themeSwitcher id="themeSwitcher" value="#{themes.selected}">
-					<f:selectItem itemLabel="Choose theme..." />
-					<f:selectItems value="#{themes.availableThemes}" var="currentTheme" itemLabel="#{currentTheme.name}" itemValue="#{currentTheme.name}" />
-				</p:themeSwitcher>
-				<p:selectOneMenu id="localeSwitcher" value="#{i18n.selectedLocale}">
-					<f:selectItem itemLabel="Choose locale..." />
-					<f:selectItems value="#{i18n.supportedLocales}" />
-				</p:selectOneMenu>
+				<p:menuButton id="currentUserMenu"
+					value="#{currentUserEditor.currentUser.fullName} (#{currentUserEditor.currentUser.userName})">
+					<p:menuitem>
+						<p:themeSwitcher id="themeSwitcher" value="#{themes.selected}">
+							<f:selectItem itemLabel="Choose theme..." />
+							<f:selectItems value="#{themes.availableThemes}"
+								var="currentTheme" itemLabel="#{currentTheme.name}"
+								itemValue="#{currentTheme.name}" />
+						</p:themeSwitcher>
+					</p:menuitem>
+					<p:menuitem>
+						<p:selectOneMenu id="localeSwitcher"
+							value="#{i18n.selectedLocale}">
+							<f:selectItem itemLabel="Choose locale..." />
+							<f:selectItems value="#{i18n.supportedLocales}" />
+						</p:selectOneMenu>
+					</p:menuitem>
+				</p:menuButton>
 			</f:facet>
 		</p:menubar>
 	</h:form>

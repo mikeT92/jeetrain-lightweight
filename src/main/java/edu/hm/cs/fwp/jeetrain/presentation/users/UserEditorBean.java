@@ -1,4 +1,4 @@
-/* UserEditorBean.java @(#)%PID%
+/* UserEditorBean.java
  */
 package edu.hm.cs.fwp.jeetrain.presentation.users;
 
@@ -6,8 +6,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.faces.annotation.FacesConfig;
+import javax.faces.annotation.FacesConfig.Version;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -27,20 +30,19 @@ import edu.hm.cs.fwp.jeetrain.business.users.entity.User;
  */
 @Named("userEditor")
 @ViewScoped
+@FacesConfig(version = Version.JSF_2_3)
 public class UserEditorBean implements Serializable {
 
 	private static final long serialVersionUID = -7705879532390689681L;
 
 	/**
-	 * Boundary {@code UserRegistration} that handles the user registration
-	 * process.
+	 * Boundary {@code UserRegistration} that handles the user registration process.
 	 */
 	@Inject
 	private UserRegistrationBean boundary;
 
 	/**
-	 * Unique identifier of the user the editor currently works on. (view
-	 * parameter)
+	 * Unique identifier of the user the editor currently works on. (view parameter)
 	 */
 	private String userId;
 
@@ -64,8 +66,12 @@ public class UserEditorBean implements Serializable {
 		return this.user;
 	}
 
-	public Roles[] getAvailableRoles() {
-		return Roles.values();
+	public List<SelectItem> getAvailableRoles() {
+		List<SelectItem> result = new ArrayList<>(Roles.values().length);
+		for (Roles currentRole : Roles.values()) {
+			result.add(new SelectItem(currentRole.name(), currentRole.name()));
+		}
+		return result;
 	}
 
 	public List<String> getRoles() {
@@ -83,8 +89,8 @@ public class UserEditorBean implements Serializable {
 	}
 
 	/**
-	 * Handles PreRenderView component system events by either creating a new
-	 * user or loading an existing user depending on the view parameter userId.
+	 * Handles PreRenderView component system events by either creating a new user
+	 * or loading an existing user depending on the view parameter userId.
 	 */
 	public void onPreRenderView() {
 		if (this.user == null) {
@@ -122,6 +128,6 @@ public class UserEditorBean implements Serializable {
 	}
 
 	public String cancel() {
-		return "returnFromRegisterUser";
+		return "/home/home?faces-redirect=true";
 	}
 }

@@ -1,4 +1,4 @@
-/* I18nBean.java @(#)%PID%
+/* I18nBean.java 
  */
 package edu.hm.cs.fwp.jeetrain.framework.web.faces.i18n;
 
@@ -13,12 +13,10 @@ import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
 import javax.faces.application.ProjectStage;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
-import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.apache.commons.lang3.LocaleUtils;
@@ -37,8 +35,8 @@ import org.apache.commons.lang3.LocaleUtils;
  * <li><b>timePattern</b></li>
  * </ul>
  * 
- * @author p534184
- * @version %PR% %PRT% %PO%
+ * @author mtheis
+ * @version 1.0
  * @since release 1.0
  */
 @Named("i18n")
@@ -64,8 +62,8 @@ public class I18nBean implements Serializable {
 	private String selectedLocale;
 
 	/**
-	 * Check the required preconditions and initializes this managed bean with
-	 * some default values.
+	 * Check the required preconditions and initializes this managed bean with some
+	 * default values.
 	 */
 	@PostConstruct
 	public void onPostConstruct() {
@@ -73,8 +71,7 @@ public class I18nBean implements Serializable {
 		FacesContext facesContext = FacesContext.getCurrentInstance();
 		Locale defaultLocale = facesContext.getApplication().getDefaultLocale();
 		if (defaultLocale != null) {
-			this.supportedLocales.add(new SelectItem(defaultLocale.toString(), defaultLocale
-					.getDisplayName()));
+			this.supportedLocales.add(new SelectItem(defaultLocale.toString(), defaultLocale.getDisplayName()));
 		}
 		Iterator<Locale> supportedLocales = facesContext.getApplication().getSupportedLocales();
 		while (supportedLocales.hasNext()) {
@@ -109,15 +106,15 @@ public class I18nBean implements Serializable {
 		logger.info("Switching locale to [" + this.selectedLocale + "]");
 		final FacesContext facesContext = FacesContext.getCurrentInstance();
 		if (this.selectedLocale == null) {
-			facesContext.addMessage(null, new FacesMessage(
-					FacesMessage.SEVERITY_ERROR, "Please select a language!", null));
+			facesContext.addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Please select a language!", null));
 			return null;
 		}
 		this.locale = LocaleUtils.toLocale(this.selectedLocale);
 		this.selectedLocale = null;
 
 		calculateValues(facesContext);
-		
+
 		return facesContext.getViewRoot().getViewId() + "?faces-redirect=true";
 	}
 
@@ -137,8 +134,8 @@ public class I18nBean implements Serializable {
 	}
 
 	/**
-	 * Returns the format pattern for datetime values currently active for this
-	 * HTTP session.
+	 * Returns the format pattern for datetime values currently active for this HTTP
+	 * session.
 	 */
 	public String getDateTimePattern() {
 		return this.dateTimePattern;
@@ -159,20 +156,12 @@ public class I18nBean implements Serializable {
 		Locale result = facesContext.getViewRoot().getLocale();
 		if (!isSupportedLocale(result)) {
 			Locale fallbackLocale = getFallbackLocale(facesContext);
-			logger
-					.warning("Falling back to locale ["
-							+ fallbackLocale
-							+ "] since the calculated locale ["
-							+ result
-							+ "] is not supported by the current application. Did you forget to add a local-config element to your faces-config.xml?");
+			logger.warning("Falling back to locale [" + fallbackLocale + "] since the calculated locale [" + result
+					+ "] is not supported by the current application. Did you forget to add a local-config element to your faces-config.xml?");
 			if (ProjectStage.Development == facesContext.getApplication().getProjectStage()) {
-				FacesMessage message =
-						new FacesMessage(
-								FacesMessage.SEVERITY_WARN,
-								MessageFormat
-										.format(
-												"Falling back to locale [{0}] since the calculated locale [{1}] is not supported by the current application. Did you forget to add a local-config element to your faces-config.xml?",
-												fallbackLocale, result), null);
+				FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, MessageFormat.format(
+						"Falling back to locale [{0}] since the calculated locale [{1}] is not supported by the current application. Did you forget to add a local-config element to your faces-config.xml?",
+						fallbackLocale, result), null);
 				facesContext.addMessage(null, message);
 			}
 			result = fallbackLocale;
@@ -223,8 +212,8 @@ public class I18nBean implements Serializable {
 	}
 
 	/**
-	 * Calculates the currently active format pattern used for date and time
-	 * parts of java.util.Date values.
+	 * Calculates the currently active format pattern used for date and time parts
+	 * of java.util.Date values.
 	 */
 	private String calculateDateTimePattern(FacesContext facesContext) {
 		String result = "dd.MM.yyyy HH:mm:ss";

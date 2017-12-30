@@ -2,8 +2,11 @@
  */
 package edu.hm.cs.fwp.jeetrain.framework.web.faces.theme;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
@@ -12,11 +15,9 @@ import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * JSF Managed Bean that handle theme management.
@@ -40,6 +41,8 @@ public class ThemesBean implements Serializable {
 
 	private Theme selected;
 
+	private List<Theme> availableThemes = new ArrayList<>();
+
 	private Map<String, Theme> themesByName = new LinkedHashMap<>();
 
 	private List<SelectItem> supportedThemes = new ArrayList<>();
@@ -53,16 +56,19 @@ public class ThemesBean implements Serializable {
 	 */
 	@PostConstruct
 	public void onPostConstruct() {
-		List<Theme> availableThemes = this.themeRepository.getAvailableThemes();
+		this.availableThemes = this.themeRepository.getAvailableThemes();
 		LOGGER.info("Found [{}] available themes", availableThemes.size());
-		availableThemes.forEach(
-				t -> this.supportedThemes.add(new SelectItem(t.getName(), t.getLibraryName()))
-		);
-		availableThemes.forEach(
-				t -> this.themesByName.put(t.getName(), t)
-		);
-		this.current = availableThemes.get(0);
-        LOGGER.info("Using theme [{}] as current theme", this.current);
+		availableThemes.forEach(t -> this.supportedThemes.add(new SelectItem(t.getName(), t.getLibraryName())));
+		availableThemes.forEach(t -> this.themesByName.put(t.getName(), t));
+		String defaultTheme = FacesContext.getCurrentInstance().getExternalContext().getInitParameterMap()
+				.get("primefaces.THEME");
+		if (defaultTheme != null) {
+			this.current = this.themesByName.get(defaultTheme);
+		}
+		if (this.current == null) {
+			this.current = this.availableThemes.get(0);
+		}
+		LOGGER.info("Using theme [{}] as current theme", this.current);
 	}
 
 	/**
@@ -80,23 +86,19 @@ public class ThemesBean implements Serializable {
 		return this.selected != null ? this.selected.getName() : this.current.getName();
 	}
 
-	/**
-	 * Returns the list of supported themes to rendered in a combobox.
-	 */
+	public List<Theme> getAvailableThemes() {
+		return this.availableThemes;
+	}
+
 	public List<SelectItem> getSupportedThemes() {
-		List<Theme> themes = this.themeRepository.getAvailableThemes();
-		List<SelectItem> result = new ArrayList<>();
-		for (Theme currentTheme : themes) {
-			result.add(new SelectItem(currentTheme.getName(), currentTheme.getName()));
-		}
 		return this.supportedThemes;
 	}
 
 	public String switchTheme() {
 		final FacesContext facesContext = FacesContext.getCurrentInstance();
 		if (this.selected == null) {
-			facesContext.addMessage(null, new FacesMessage(
-					FacesMessage.SEVERITY_ERROR, "Please select one theme!", null));
+			facesContext.addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Please select one theme!", null));
 			return null;
 		}
 		this.current = this.selected;
