@@ -16,11 +16,16 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.application.ProjectStage;
 import javax.faces.context.FacesContext;
+import javax.faces.convert.FacesConverter;
 import javax.faces.model.SelectItem;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.apache.commons.lang3.LocaleUtils;
 import org.apache.commons.lang3.StringUtils;
+
+import edu.hm.cs.fwp.jeetrain.business.users.boundary.UserPreferencesBean;
+import edu.hm.cs.fwp.jeetrain.business.users.entity.PreferenceNames;
 
 /**
  * Managed bean that controls all user preferences regarding locales and
@@ -62,9 +67,16 @@ public class I18nBean implements Serializable {
 
 	private Locale selectedLocale;
 
-	private Locale currentLocale;
-
 	private List<Locale> availableLocales = new ArrayList<>();
+
+	@Inject
+	private transient UserPreferencesBean userPreferences;
+
+	@Inject
+	@FacesConverter(value = "localeConverter", managed = true)
+	private transient LocaleConverter localeConverter;
+
+	private Locale userLocale;
 
 	/**
 	 * Check the required preconditions and initializes this managed bean with some
@@ -87,11 +99,11 @@ public class I18nBean implements Serializable {
 		}
 
 		this.locale = calculateUserLocale(facesContext);
-		this.currentLocale = this.locale;
+		this.userLocale = this.locale;
 
 		calculateValues(facesContext);
-		logger.info(String.format("available locales: [%s], current locale: [%s]",
-				StringUtils.join(this.availableLocales, ", "), this.currentLocale));
+		logger.info(String.format("available locales: [%s], user locale: [%s]",
+				StringUtils.join(this.availableLocales, ", "), this.userLocale));
 	}
 
 	/**
@@ -123,9 +135,13 @@ public class I18nBean implements Serializable {
 			return null;
 		}
 		this.locale = this.selectedLocale;
-		this.currentLocale = this.locale;
+		this.userLocale = this.locale;
 		this.selectedLocale = null;
-		facesContext.getViewRoot().setLocale(this.currentLocale);
+		if (facesContext.getExternalContext().isUserInRole("JEETRAIN_USER")) {
+			this.userPreferences.setPreferenceValue(PreferenceNames.locale,
+					this.localeConverter.getAsString(facesContext, null, userLocale));
+		}
+		facesContext.getViewRoot().setLocale(this.userLocale);
 		calculateValues(facesContext);
 
 		return facesContext.getViewRoot().getViewId() + "?faces-redirect=true";
@@ -140,11 +156,16 @@ public class I18nBean implements Serializable {
 	 * Calculates the locale of the currently authenticated user.
 	 */
 	public Locale calculateUserLocale(FacesContext facesContext) {
-		Locale result = this.currentLocale;
-		if (result == null) {
-			result = getFallbackLocale(facesContext);
+		if (this.userLocale == null && facesContext.getExternalContext().isUserInRole("JEETRAIN_USER")) {
+			String localePreferenceValue = this.userPreferences.getPreferenceValue(PreferenceNames.locale);
+			if (localePreferenceValue != null) {
+				this.userLocale = this.localeConverter.getAsObject(facesContext, null, localePreferenceValue);
+			}
 		}
-		return result;
+		if (this.userLocale == null) {
+			this.userLocale = facesContext.getApplication().getDefaultLocale();
+		}
+		return this.userLocale;
 	}
 
 	/**
