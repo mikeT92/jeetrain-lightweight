@@ -9,7 +9,8 @@
 		</locale-config>
 		<resource-bundle>
 			<base-name>edu.hm.cs.fwp.jeetrain.presentation.resources.Messages</base-name>
-			<var>msg</var>
+			<var>msgs</var>
 		</resource-bundle>
+		<view-handler>edu.hm.cs.fwp.jeetrain.framework.web.faces.i18n.UserLocaleAwareViewHandler</view-handler>
 	</application>
 </faces-config>

@@ -3,15 +3,14 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:jsf="http://xmlns.jcp.org/jsf" xmlns:b="http://bootsfaces.net/ui"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
 	xmlns:p="http://primefaces.org/ui">
 	<ui:composition
-		template="/resources/jeetrain/layouts/masterNoNavigation.xhtml">
+		template="/resources/jeetrain/layouts/master.xhtml">
 		<ui:define name="pageTitle">JEETrain Login</ui:define>
 		<ui:define name="content">
 			<div class="ui-g">
-				<p:panel header="JEETrain Login"
-					style="width: 50em; position: relative;">
+				<p:panel header="JEETrain Login" styleClass="ui-g-6">
 					<form id="loginForm" action="j_security_check" method="post">
 						<p:panelGrid columns="2" layout="grid"
 							columnClasses="ui-g-3, ui-g-9" styleClass="ui-panelgrid-blank">

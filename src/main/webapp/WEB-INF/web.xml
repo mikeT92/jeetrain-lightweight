@@ -37,7 +37,7 @@
 	 -->
 	<context-param>
 		<param-name>primefaces.THEME</param-name>
-		<param-value>blitzer</param-value>
+		<param-value>#{themes.current.name}</param-value>
 	</context-param>
 	<welcome-file-list>
 		<welcome-file>index.jsf</welcome-file>

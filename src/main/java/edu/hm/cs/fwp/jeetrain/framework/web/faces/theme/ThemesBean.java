@@ -20,7 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * JSF Managed Bean that handle theme management.
+ * JSF Managed Bean that handles theme management.
  * 
  * @author mtheis
  * @version 1.0.0
@@ -62,7 +62,7 @@ public class ThemesBean implements Serializable {
 		availableThemes.forEach(t -> this.themesByName.put(t.getName(), t));
 		String defaultTheme = FacesContext.getCurrentInstance().getExternalContext().getInitParameterMap()
 				.get("primefaces.THEME");
-		if (defaultTheme != null) {
+		if (defaultTheme != null && !defaultTheme.startsWith("#{")) {
 			this.current = this.themesByName.get(defaultTheme);
 		}
 		if (this.current == null) {
@@ -95,6 +95,7 @@ public class ThemesBean implements Serializable {
 	}
 
 	public String switchTheme() {
+		LOGGER.info("Trying to switch to theme [{}]", this.selected);
 		final FacesContext facesContext = FacesContext.getCurrentInstance();
 		if (this.selected == null) {
 			facesContext.addMessage(null,

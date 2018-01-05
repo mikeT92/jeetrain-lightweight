@@ -20,6 +20,7 @@ import javax.faces.model.SelectItem;
 import javax.inject.Named;
 
 import org.apache.commons.lang3.LocaleUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Managed bean that controls all user preferences regarding locales and
@@ -59,7 +60,11 @@ public class I18nBean implements Serializable {
 
 	private String timePattern;
 
-	private String selectedLocale;
+	private Locale selectedLocale;
+
+	private Locale currentLocale;
+
+	private List<Locale> availableLocales = new ArrayList<>();
 
 	/**
 	 * Check the required preconditions and initializes this managed bean with some
@@ -71,16 +76,22 @@ public class I18nBean implements Serializable {
 		FacesContext facesContext = FacesContext.getCurrentInstance();
 		Locale defaultLocale = facesContext.getApplication().getDefaultLocale();
 		if (defaultLocale != null) {
-			this.supportedLocales.add(new SelectItem(defaultLocale.toString(), defaultLocale.getDisplayName()));
+			this.availableLocales.add(defaultLocale);
+			this.supportedLocales.add(new SelectItem(defaultLocale.toString(), buildLocaleLabel(defaultLocale)));
 		}
 		Iterator<Locale> supportedLocales = facesContext.getApplication().getSupportedLocales();
 		while (supportedLocales.hasNext()) {
 			Locale current = supportedLocales.next();
-			this.supportedLocales.add(new SelectItem(current.toString(), current.getDisplayName()));
+			this.availableLocales.add(current);
+			this.supportedLocales.add(new SelectItem(current.toString(), buildLocaleLabel(current)));
 		}
 
-		this.locale = calculateLocale(facesContext);
+		this.locale = calculateUserLocale(facesContext);
+		this.currentLocale = this.locale;
+
 		calculateValues(facesContext);
+		logger.info(String.format("available locales: [%s], current locale: [%s]",
+				StringUtils.join(this.availableLocales, ", "), this.currentLocale));
 	}
 
 	/**
@@ -95,11 +106,12 @@ public class I18nBean implements Serializable {
 	}
 
 	public String getSelectedLocale() {
-		return this.selectedLocale != null ? this.selectedLocale : this.locale.toString();
+		return this.selectedLocale != null ? this.selectedLocale.toString() : this.locale.toString();
 	}
 
-	public void setSelectedLocale(String locale) {
-		this.selectedLocale = locale;
+	public void setSelectedLocale(String localeText) {
+		logger.info("setting selected locale [" + localeText + "]");
+		this.selectedLocale = LocaleUtils.toLocale(localeText);
 	}
 
 	public String switchLocale() {
@@ -110,12 +122,29 @@ public class I18nBean implements Serializable {
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Please select a language!", null));
 			return null;
 		}
-		this.locale = LocaleUtils.toLocale(this.selectedLocale);
+		this.locale = this.selectedLocale;
+		this.currentLocale = this.locale;
 		this.selectedLocale = null;
-
+		facesContext.getViewRoot().setLocale(this.currentLocale);
 		calculateValues(facesContext);
 
 		return facesContext.getViewRoot().getViewId() + "?faces-redirect=true";
+	}
+
+	public void onLocaleChanged() {
+		logger.info("User changed locale to [" + this.selectedLocale + "]");
+		switchLocale();
+	}
+
+	/**
+	 * Calculates the locale of the currently authenticated user.
+	 */
+	public Locale calculateUserLocale(FacesContext facesContext) {
+		Locale result = this.currentLocale;
+		if (result == null) {
+			result = getFallbackLocale(facesContext);
+		}
+		return result;
 	}
 
 	/**
@@ -174,13 +203,7 @@ public class I18nBean implements Serializable {
 	 * locales; otherwise <code>false</code>.
 	 */
 	private boolean isSupportedLocale(Locale locale) {
-		String localeId = locale.toString();
-		for (SelectItem current : this.supportedLocales) {
-			if (localeId.equals(current.getValue())) {
-				return true;
-			}
-		}
-		return false;
+		return this.availableLocales.contains(locale);
 	}
 
 	/**
@@ -237,5 +260,18 @@ public class I18nBean implements Serializable {
 		this.dateTimePattern = calculateDateTimePattern(facesContext);
 		this.timePattern = calculateTimePattern(facesContext);
 		this.timeZone = calculateTimeZone(facesContext);
+	}
+
+	private String buildLocaleLabel(Locale locale) {
+		StringBuilder result = new StringBuilder();
+		String language = locale.getLanguage();
+		if (language != null) {
+			result.append(language.toUpperCase());
+		}
+		String country = locale.getCountry();
+		if (country != null) {
+			result.append(" (").append(country).append(")");
+		}
+		return result.toString();
 	}
 }

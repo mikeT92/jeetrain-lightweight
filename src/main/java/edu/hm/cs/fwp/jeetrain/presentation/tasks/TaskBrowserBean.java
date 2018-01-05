@@ -1,4 +1,4 @@
-/* TaskBrowserManagedBean.java @(#)%PID%
+/* TaskBrowserManagedBean.java
  */
 package edu.hm.cs.fwp.jeetrain.presentation.tasks;
 
@@ -8,7 +8,7 @@ import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import javax.enterprise.context.SessionScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -24,7 +24,7 @@ import edu.hm.cs.fwp.jeetrain.framework.web.faces.component.datatable.Selectable
  * @since release 1.0
  */
 @Named("taskBrowser")
-@SessionScoped
+@ViewScoped
 public class TaskBrowserBean implements Serializable {
 
 	private static final Logger LOGGER = Logger.getLogger(TaskBrowserBean.class.getName());
@@ -41,8 +41,8 @@ public class TaskBrowserBean implements Serializable {
 	// event handlers --------------------------------------------------------
 
 	/**
-	 * Gets called whenever a new instance of this managed bean has been created
-	 * and all dependencies resolved.
+	 * Gets called whenever a new instance of this managed bean has been created and
+	 * all dependencies resolved.
 	 */
 	@PostConstruct
 	public void onPostConstruct() {
@@ -61,7 +61,6 @@ public class TaskBrowserBean implements Serializable {
 	 * Gets called whenever the associated view is about to be rendered.
 	 */
 	public void onPreRenderView() {
-		LOGGER.info("about to render view");
 		if (this.tasks == null) {
 			this.tasks = this.boundary.retrieveAllTasks();
 			this.taskModel = new SelectableDataTableModel<Task>(this.tasks);

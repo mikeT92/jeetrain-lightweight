@@ -12,33 +12,56 @@
 	<h:form id="menuBarForm">
 		<p:menubar id="menuBar">
 			<p:menuitem value="Home" url="/home/home.jsf" />
-			<p:submenu label="Users">
+			<p:submenu label="Users" rendered="#{request.isUserInRole('JEETRAIN_ADMIN')}">
 				<p:menuitem value="Browse Users" url="browseUsers" />
 			</p:submenu>
-			<p:submenu label="Tasks">
+			<p:submenu label="Tasks" rendered="#{request.isUserInRole('JEETRAIN_USER')}">
 				<p:menuitem value="Browse Tasks"
 					action="/tasks/browseTasks?faces-redirect=true" />
 			</p:submenu>
 			<f:facet name="options">
-				<p:menuButton id="currentUserMenu"
+			    <p:menuButton id="currentUserMenu" rendered="#{request.isUserInRole('JEETRAIN_USER')}"
 					value="#{currentUserEditor.currentUser.fullName} (#{currentUserEditor.currentUser.userName})">
-					<p:menuitem>
-						<p:themeSwitcher id="themeSwitcher" value="#{themes.selected}">
-							<f:selectItem itemLabel="Choose theme..." />
-							<f:selectItems value="#{themes.availableThemes}"
-								var="currentTheme" itemLabel="#{currentTheme.name}"
-								itemValue="#{currentTheme.name}" />
-						</p:themeSwitcher>
-					</p:menuitem>
-					<p:menuitem>
-						<p:selectOneMenu id="localeSwitcher"
-							value="#{i18n.selectedLocale}">
-							<f:selectItem itemLabel="Choose locale..." />
-							<f:selectItems value="#{i18n.supportedLocales}" />
-						</p:selectOneMenu>
-					</p:menuitem>
+					<p:menuitem value="(#{themes.selected}) Select theme..."
+						onclick="PF('selectThemeDialog').show();" />
+					<p:menuitem value="(#{i18n.selectedLocale}) Select locale..."
+						onclick="PF('selectLocaleDialog').show();" />
 				</p:menuButton>
 			</f:facet>
 		</p:menubar>
+		<p:dialog id="selectThemeDialog" header="Select Theme"
+			widgetVar="selectThemeDialog" minHeight="40">
+			<p:panelGrid id="selectThemePanel" columns="2" styleClass="ui-panelgrid-blank">
+				<p:outputLabel for="themeSwitcher" value="Theme:" />
+				<p:themeSwitcher id="themeSwitcher" value="#{themes.selected}">
+					<f:selectItem itemLabel="Choose theme..." />
+					<f:selectItems value="#{themes.availableThemes}" var="currentTheme"
+						itemLabel="#{currentTheme.name}" itemValue="#{currentTheme.name}" />
+				</p:themeSwitcher>
+				<f:facet name="footer">
+					<p:commandButton id="applyTheme" value="Apply"
+						action="#{themes.switchTheme}"
+						onsuccess="PF('selectThemeDialog').hide();" />
+					<p:commandButton id="discardTheme" value="Cancel"
+						onsuccess="PF('selectThemeDialog').hide();" />
+				</f:facet>
+			</p:panelGrid>
+		</p:dialog>
+		<p:dialog id="selectLocaleDialog" header="Select Locale"
+			widgetVar="selectLocaleDialog" minHeight="40">
+			<p:panelGrid id="selectLocalePanel" columns="2" styleClass="ui-panelgrid-blank">
+				<p:outputLabel for="localeSwitcher" value="Locale:" />
+				<p:selectOneMenu id="localeSwitcher" value="#{i18n.selectedLocale}">
+		    		<f:selectItems value="#{i18n.supportedLocales}"/>
+			    </p:selectOneMenu>
+				<f:facet name="footer">
+					<p:commandButton id="applyLocale" value="Apply"
+						action="#{i18n.switchLocale}"
+						onsuccess="PF('selectLocaleDialog').hide();" />
+					<p:commandButton id="discardLocale" value="Cancel"
+						onsuccess="PF('selectLocaleDialog').hide();" />
+				</f:facet>
+			</p:panelGrid>
+		</p:dialog>
 	</h:form>
 </ui:composition>

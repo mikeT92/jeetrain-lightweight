@@ -1,4 +1,4 @@
-/* Task.java @(#)%PID%
+/* Task.java 
  */
 package edu.hm.cs.fwp.jeetrain.business.tasks.entity;
 
@@ -27,8 +27,8 @@ import edu.hm.cs.fwp.jeetrain.framework.core.persistence.AuditableEntity;
  * {@code Entity} representing a tasks.
  * 
  * @author mtheis
- * @version %PR% %PRT% %PO%
- * @since release 1.0 29.10.2012 17:27:22
+ * @version 1.0
+ * @since release 2018.1
  */
 @Entity
 @Table(name = "T_TASK")
@@ -152,8 +152,8 @@ public class Task implements Serializable, AuditableEntity {
 	/**
 	 * Project-ID of the project this task is related to.
 	 * <p>
-	 * Equals {@link #affectedApplicationId} if this is a application
-	 * maintenance task not related to a specific project.
+	 * Equals {@link #affectedApplicationId} if this is a application maintenance
+	 * task not related to a specific project.
 	 * </p>
 	 */
 	@Size(max = 16)
