@@ -19,6 +19,9 @@ import javax.inject.Named;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import edu.hm.cs.fwp.jeetrain.business.users.boundary.UserPreferencesBean;
+import edu.hm.cs.fwp.jeetrain.business.users.entity.PreferenceNames;
+
 /**
  * JSF Managed Bean that handles theme management.
  * 
@@ -47,6 +50,11 @@ public class ThemesBean implements Serializable {
 
 	private List<SelectItem> supportedThemes = new ArrayList<>();
 
+	@Inject
+	private UserPreferencesBean userPreferences;
+
+	private Theme userTheme;
+
 	/**
 	 * Initializes the currently used theme according to the current user's
 	 * preferences.
@@ -66,8 +74,9 @@ public class ThemesBean implements Serializable {
 			this.current = this.themesByName.get(defaultTheme);
 		}
 		if (this.current == null) {
-			this.current = this.availableThemes.get(0);
+			this.current = this.themesByName.get("blitzer");
 		}
+		calculateUserTheme(FacesContext.getCurrentInstance());
 		LOGGER.info("Using theme [{}] as current theme", this.current);
 	}
 
@@ -75,7 +84,8 @@ public class ThemesBean implements Serializable {
 	 * Returns the currently used theme.
 	 */
 	public Theme getCurrent() {
-		return this.current;
+		calculateUserTheme(FacesContext.getCurrentInstance());
+		return this.userTheme != null ? this.userTheme : this.current;
 	}
 
 	public void setSelected(String themeName) {
@@ -103,7 +113,21 @@ public class ThemesBean implements Serializable {
 			return null;
 		}
 		this.current = this.selected;
+		this.userTheme = this.current;
 		this.selected = null;
+		if (facesContext.getExternalContext().isUserInRole("JEETRAIN_USER")) {
+			this.userPreferences.setPreferenceValue(PreferenceNames.theme, this.userTheme.getName());
+		}
 		return facesContext.getViewRoot().getViewId() + "?faces-redirect=true";
+	}
+
+	public Theme calculateUserTheme(FacesContext facesContext) {
+		if (this.userTheme == null && facesContext.getExternalContext().isUserInRole("JEETRAIN_USER")) {
+			String themePreference = this.userPreferences.getPreferenceValue(PreferenceNames.theme);
+			if (themePreference == null) {
+				this.userTheme = this.themesByName.get(themePreference);
+			}
+		}
+		return this.userTheme;
 	}
 }
