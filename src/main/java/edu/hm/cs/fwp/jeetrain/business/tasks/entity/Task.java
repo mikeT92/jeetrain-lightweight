@@ -21,7 +21,7 @@ import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import edu.hm.cs.fwp.jeetrain.framework.core.persistence.AuditableEntity;
+import edu.hm.cs.fwp.jeetrain.framework.core.persistence.AbstractAuditableEntity;
 
 /**
  * {@code Entity} representing a tasks.
@@ -34,7 +34,7 @@ import edu.hm.cs.fwp.jeetrain.framework.core.persistence.AuditableEntity;
 @Table(name = "T_TASK")
 @NamedQueries({ @NamedQuery(name = Task.QUERY_ALL, query = "SELECT t FROM Task t ORDER BY t.id"),
 		@NamedQuery(name = Task.COUNT_ALL, query = "SELECT COUNT(t) FROM Task t") })
-public class Task implements Serializable, AuditableEntity {
+public class Task extends AbstractAuditableEntity implements Serializable {
 
 	private static final long serialVersionUID = 6549807945660625663L;
 
@@ -200,34 +200,6 @@ public class Task implements Serializable, AuditableEntity {
 	@Version
 	private int version;
 
-	/**
-	 * User ID of the user who created this entity.
-	 */
-	@Size(max = 16)
-	@Column(name = "CREATOR_USER_ID")
-	private String creatorId;
-
-	/**
-	 * Date/timer when this entity was created.
-	 */
-	@Column(name = "CREATION_DATE")
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date creationDate;
-
-	/**
-	 * User ID of the user who modified this entity.
-	 */
-	@Size(max = 16)
-	@Column(name = "LAST_MODIFIER_USER_ID")
-	private String lastModifierId;
-
-	/**
-	 * Date/time this entity was modified.
-	 */
-	@Column(name = "LAST_MODIFICATION_DATE")
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date lastModificationDate;
-
 	public long getId() {
 		return id;
 	}
@@ -378,63 +350,6 @@ public class Task implements Serializable, AuditableEntity {
 
 	public int getVersion() {
 		return version;
-	}
-
-	/**
-	 * @see edu.hm.cs.fwp.jeetrain.framework.core.persistence.AuditableEntity#getCreatorId()
-	 */
-	@Override
-	public String getCreatorId() {
-		return this.creatorId;
-	}
-
-	/**
-	 * @see edu.hm.cs.fwp.jeetrain.framework.core.persistence.AuditableEntity#getCreationDate()
-	 */
-	@Override
-	public Date getCreationDate() {
-		return this.creationDate;
-	}
-
-	/**
-	 * @see edu.hm.cs.fwp.jeetrain.framework.core.persistence.AuditableEntity#trackCreation(java.lang.String,
-	 *      java.util.Date)
-	 */
-	@Override
-	public void trackCreation(String creatorId, Date creationDate) {
-		if (this.creatorId != null || this.creationDate != null) {
-			throw new IllegalStateException(
-					"AuditableEntity.trackCreation() can only be called once during the lifetime of an AuditableEntity!");
-		}
-		this.creatorId = creatorId;
-		this.creationDate = creationDate;
-		trackModification(creatorId, creationDate);
-	}
-
-	/**
-	 * @see edu.hm.cs.fwp.jeetrain.framework.core.persistence.AuditableEntity#getLastModifierId()
-	 */
-	@Override
-	public String getLastModifierId() {
-		return this.lastModifierId;
-	}
-
-	/**
-	 * @see edu.hm.cs.fwp.jeetrain.framework.core.persistence.AuditableEntity#getLastModificationDate()
-	 */
-	@Override
-	public Date getLastModificationDate() {
-		return this.lastModificationDate;
-	}
-
-	/**
-	 * @see edu.hm.cs.fwp.jeetrain.framework.core.persistence.AuditableEntity#trackModification(java.lang.String,
-	 *      java.util.Date)
-	 */
-	@Override
-	public void trackModification(String lastModifierId, Date lastModificationDate) {
-		this.lastModificationDate = lastModificationDate;
-		this.lastModifierId = lastModifierId;
 	}
 
 	/**
