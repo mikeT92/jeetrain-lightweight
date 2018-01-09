@@ -22,7 +22,8 @@
 						var="current" rows="10" selectionMode="single"
 						rowKey="#{current.id}"
 						selection="#{taskBrowser.taskModel.selectedRow}" lazy="true"
-						paginator="true" paginatorAlwaysVisible="false">
+						paginator="true" paginatorAlwaysVisible="false"
+						reflow="true">
 						<p:ajax event="rowSelect" update=":taskListForm:taskButtonsGrid" />
 						<p:ajax event="rowUnselect" update=":taskListForm:taskButtonsGrid" />
 						<p:column headerText="Task ID">

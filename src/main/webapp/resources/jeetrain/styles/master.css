@@ -5,12 +5,25 @@ body {
 	font-size: 100%;
 }
 
+@media only screen and (max-width: 576px) {
+    body {
+		font-family: Segoe UI, Arial;
+		font-size: 80%;
+    }
+}
+
 #container {
 	
 }
 
 #header {
 	
+}
+
+@media only screen and (max-width: 576px) {
+    #header {
+    	display: none;
+    }
 }
 
 #navigation {
