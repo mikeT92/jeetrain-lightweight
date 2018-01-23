@@ -26,11 +26,15 @@ public class AuditableEntityMonitor {
 
 	@PrePersist
 	public void onPrePersist(AuditableEntity entity) {
-		entity.trackCreation(this.principal.getName(), Calendar.getInstance().getTime());
+		entity.trackCreation(getAuthenticatedUserName(), Calendar.getInstance().getTime());
 	}
 
 	@PreUpdate
 	public void onPreUpdate(AuditableEntity entity) {
-		entity.trackModification(this.principal.getName(), Calendar.getInstance().getTime());
+		entity.trackModification(getAuthenticatedUserName(), Calendar.getInstance().getTime());
+	}
+
+	private String getAuthenticatedUserName() {
+		return this.principal != null ? this.principal.getName() : null;
 	}
 }

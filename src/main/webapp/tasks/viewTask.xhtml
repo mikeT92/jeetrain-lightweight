@@ -43,9 +43,9 @@
 							</h:outputText>
 							<h:outputLabel for="responsibleUserId" value="Responsible" />
 							<h:outputText id="responsibleUserId" value="#{taskEditor.task.responsibleUserId}" />
-							<h:outputLabel for="requestDate" value="Request date" />
-							<h:outputText id="requestDate" value="#{taskEditor.task.submissionDate}" >
-								<f:convertDateTime dateStyle="medium"/>
+							<h:outputLabel for="submissionDate" value="Submission date" />
+							<h:outputText id="submissionDate" value="#{taskEditor.task.submissionDate}" >
+								<f:convertDateTime type="localDateTime" />
 							</h:outputText>
 							<h:outputLabel for="requesterUserId" value="Requested by" />
 							<h:outputText id="requesterUserId" value="#{taskEditor.task.submitterUserId}" />

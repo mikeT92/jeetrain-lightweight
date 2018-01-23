@@ -4,6 +4,8 @@
  */
 package edu.hm.cs.fwp.jeetrain.business.tasks.boundary;
 
+import java.time.LocalDateTime;
+
 import javax.annotation.Resource;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.SessionContext;
@@ -17,7 +19,7 @@ import edu.hm.cs.fwp.jeetrain.framework.core.logging.ejb.TraceInterceptor;
 import edu.hm.cs.fwp.jeetrain.framework.core.persistence.GenericRepositoryBean;
 
 /**
- * TODO: add documentation!
+ * {@code Boundary} that processes tasks according to their lifecycle.
  * 
  * @author mikeT92
  * @version 1.0
@@ -50,7 +52,8 @@ public class TaskProcessorBean {
 			throw new IllegalStateException(String.format("Expected task lifecycle state [%s] but was [%s]",
 					TaskLifeCycleState.UNDEFINED, state));
 		}
-		task.setResponsibleUserId(this.sessionContext.getCallerPrincipal().getName());
+		task.setSubmitterUserId(this.sessionContext.getCallerPrincipal().getName());
+		task.setSubmissionDate(LocalDateTime.now());
 		this.repository.addEntity(task);
 	}
 

@@ -3,6 +3,7 @@
 package edu.hm.cs.fwp.jeetrain.business.tasks.entity;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -97,8 +98,8 @@ public class Task extends AbstractAuditableEntity implements Serializable {
 	 * </p>
 	 */
 	@Column(name = "SUBMISSION_DATE")
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date submissionDate;
+	// @Temporal(TemporalType.TIMESTAMP)
+	private LocalDateTime submissionDate;
 
 	/**
 	 * User-ID of participant who submitted this task.
@@ -244,11 +245,11 @@ public class Task extends AbstractAuditableEntity implements Serializable {
 		this.lifeCycleState = state;
 	}
 
-	public Date getSubmissionDate() {
+	public LocalDateTime getSubmissionDate() {
 		return submissionDate;
 	}
 
-	public void setSubmissionDate(Date startDate) {
+	public void setSubmissionDate(LocalDateTime startDate) {
 		this.submissionDate = startDate;
 	}
 

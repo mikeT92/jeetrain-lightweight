@@ -53,13 +53,13 @@ public class AuthenticatedUserComponentTestFixture {
 
 	@PostConstruct
 	public void ensureUser() {
-		if (this.testUser == null) {
-			User newUser = new UserBuilder().build();
-			String unhashedPassword = newUser.getPassword();
+		User newUser = new UserBuilder().build();
+		String unhashedPassword = newUser.getPassword();
+		if (this.userRegistration.isUserNameAvailable(newUser.getUserName())) {
 			this.userRegistration.registerUser(newUser);
-			this.testUser = newUser;
-			this.testUserPassword = unhashedPassword;
 		}
+		this.testUser = newUser;
+		this.testUserPassword = unhashedPassword;
 	}
 
 	@PreDestroy

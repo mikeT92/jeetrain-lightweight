@@ -87,6 +87,8 @@ public class TaskProcessorComponentTest {
 		this.taskIdTrashBin.add(newTask.getId());
 		Task submittedTask = this.underTest.retrieveTaskById(newTask.getId());
 		assertNotNull("submitTask must add task to datastore", submittedTask);
+		assertNotNull("Task.submitterUserId must not be null", submittedTask.getSubmitterUserId());
+		assertNotNull("Task.submissionDate must not be null", submittedTask.getSubmissionDate());
 		assertEquals("Task.lifeCycleState must be OPEN_RUNNING", TaskLifeCycleState.OPEN_RUNNING,
 				submittedTask.getLifeCycleState());
 	}
