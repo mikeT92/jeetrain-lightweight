@@ -9,7 +9,7 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 	<f:metadata>
-		<f:event type="preRenderView" listener="#{taskEditor.onPreRenderView}" />
+		<f:viewAction action="#{taskEditor.onPreRenderView}" />
 	</f:metadata>
 	<ui:composition template="/resources/jeetrain/layouts/master.xhtml">
 		<ui:define name="pageTitle">JEETrain: New Task</ui:define>
