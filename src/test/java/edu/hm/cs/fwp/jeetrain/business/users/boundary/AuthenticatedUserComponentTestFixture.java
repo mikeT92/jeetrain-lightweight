@@ -4,9 +4,11 @@
  */
 package edu.hm.cs.fwp.jeetrain.business.users.boundary;
 
-import javax.enterprise.context.Dependent;
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import javax.ejb.Singleton;
+import javax.ejb.Startup;
 import javax.inject.Inject;
-import javax.inject.Named;
 
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -25,8 +27,8 @@ import edu.hm.cs.fwp.jeetrain.framework.core.persistence.GenericRepositoryBean;
  * @version 1.0
  * @since 06.06.2017
  */
-@Named
-@Dependent
+@Startup
+@Singleton
 public class AuthenticatedUserComponentTestFixture {
 
 	public static WebArchive attachToDeployment(WebArchive type) {
@@ -49,17 +51,8 @@ public class AuthenticatedUserComponentTestFixture {
 
 	private ProgrammaticLogin login;
 
-	public void onBefore() {
-		ensureUser();
-		loginUser();
-	}
-
-	public void onAfter() {
-		logoutUser();
-		disposeUser();
-	}
-
-	private void ensureUser() {
+	@PostConstruct
+	public void ensureUser() {
 		if (this.testUser == null) {
 			User newUser = new UserBuilder().build();
 			String unhashedPassword = newUser.getPassword();
@@ -67,6 +60,29 @@ public class AuthenticatedUserComponentTestFixture {
 			this.testUser = newUser;
 			this.testUserPassword = unhashedPassword;
 		}
+	}
+
+	@PreDestroy
+	public void disposeUser() {
+		if (this.testUser != null) {
+			try {
+				this.userRegistration.unregisterUser(testUser.getUserName());
+			} catch (Exception ex) {
+				System.err.println(
+						String.format("Unable to dispose of test user [%s] due to exception [%s]; continue anyway",
+								this.testUser.getUserName(), ex.getMessage()));
+			}
+			this.testUser = null;
+			this.testUserPassword = null;
+		}
+	}
+
+	public void onBefore() {
+		loginUser();
+	}
+
+	public void onAfter() {
+		logoutUser();
 	}
 
 	private void loginUser() {
@@ -84,20 +100,6 @@ public class AuthenticatedUserComponentTestFixture {
 		if (this.login != null) {
 			this.login.logout();
 			this.login = null;
-		}
-	}
-
-	private void disposeUser() {
-		if (this.testUser != null) {
-			try {
-				this.userRegistration.unregisterUser(testUser.getUserName());
-			} catch (Exception ex) {
-				System.err.println(
-						String.format("Unable to dispose of test user [%s] due to exception [%s]; continue anyway",
-								this.testUser.getUserName(), ex.getMessage()));
-			}
-			this.testUser = null;
-			this.testUserPassword = null;
 		}
 	}
 }

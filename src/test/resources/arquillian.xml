@@ -7,7 +7,7 @@
 			<property name="adminPassword"></property>
 			<property name="adminHttps">false</property>
 			<property name="adminHost">localhost</property>
-			<property name="adminPort">9048</property>
+			<property name="adminPort">8048</property>
 			<property name="target">server</property>
 		</configuration>
 	</container>

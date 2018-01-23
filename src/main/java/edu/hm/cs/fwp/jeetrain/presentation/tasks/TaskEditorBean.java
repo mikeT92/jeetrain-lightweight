@@ -9,7 +9,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import edu.hm.cs.fwp.jeetrain.business.tasks.boundary.TaskManagerBean;
+import edu.hm.cs.fwp.jeetrain.business.tasks.boundary.TaskProcessorBean;
 import edu.hm.cs.fwp.jeetrain.business.tasks.entity.Task;
 import edu.hm.cs.fwp.jeetrain.business.tasks.entity.TaskCategory;
 import edu.hm.cs.fwp.jeetrain.business.tasks.entity.TaskPriority;
@@ -28,7 +28,7 @@ public class TaskEditorBean implements Serializable {
 	private static final long serialVersionUID = -8252721628528236785L;
 
 	@Inject
-	private TaskManagerBean boundary;
+	private TaskProcessorBean boundary;
 
 	private long taskId;
 
@@ -50,11 +50,11 @@ public class TaskEditorBean implements Serializable {
 	 * Obtains a {@code Task} instance to work on; if not already done:
 	 * </p>
 	 * <ul>
-	 * <li>If {@link TaskEditorBean#taskId} == 0 the managed bean assumes that
-	 * it supposed to created a new one.</li>
-	 * <li>If {@link TaskEditorBean#taskId} is != 0 the managed bean assumes
-	 * that someone put an instance into the session and it is supposed to
-	 * modify that one.</li>
+	 * <li>If {@link TaskEditorBean#taskId} == 0 the managed bean assumes that it
+	 * supposed to created a new one.</li>
+	 * <li>If {@link TaskEditorBean#taskId} is != 0 the managed bean assumes that
+	 * someone put an instance into the session and it is supposed to modify that
+	 * one.</li>
 	 * </ul>
 	 */
 	public void onPreRenderView() {
@@ -103,8 +103,9 @@ public class TaskEditorBean implements Serializable {
 	// actions ---------------------------------------------------------------
 
 	public String newTask() {
-		this.task = this.boundary.addTask(this.task);
-		return "viewTask?faces-redirect=true?taskId=" + this.task.getId();
+		this.boundary.submitTask(this.task);
+		this.task = null;
+		return "/tasks/browseTasks?faces-redirect=true";
 	}
 
 	public String editTask() {

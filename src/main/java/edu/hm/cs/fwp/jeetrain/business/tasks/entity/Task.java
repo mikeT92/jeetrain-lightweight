@@ -24,7 +24,7 @@ import javax.validation.constraints.Size;
 import edu.hm.cs.fwp.jeetrain.framework.core.persistence.AbstractAuditableEntity;
 
 /**
- * {@code Entity} representing a tasks.
+ * {@code Entity} representing a task.
  * 
  * @author mtheis
  * @version 1.0
@@ -256,8 +256,8 @@ public class Task extends AbstractAuditableEntity implements Serializable {
 		return submitterUserId;
 	}
 
-	public void setSubmitterUserId(String requesterUserId) {
-		this.submitterUserId = requesterUserId;
+	public void setSubmitterUserId(String submitterUserId) {
+		this.submitterUserId = submitterUserId;
 	}
 
 	public Date getDueDate() {
