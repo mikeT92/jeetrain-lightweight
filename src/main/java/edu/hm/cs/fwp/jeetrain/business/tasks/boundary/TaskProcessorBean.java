@@ -15,8 +15,8 @@ import javax.interceptor.Interceptors;
 
 import edu.hm.cs.fwp.jeetrain.business.tasks.entity.Task;
 import edu.hm.cs.fwp.jeetrain.business.tasks.entity.TaskLifeCycleState;
-import edu.hm.cs.fwp.jeetrain.framework.core.logging.ejb.TraceInterceptor;
-import edu.hm.cs.fwp.jeetrain.framework.core.persistence.GenericRepositoryBean;
+import edu.hm.cs.fwp.jeetrain.common.core.logging.ejb.TraceInterceptor;
+import edu.hm.cs.fwp.jeetrain.common.core.persistence.repository.GenericRepositoryBean;
 
 /**
  * {@code Boundary} that processes tasks according to their lifecycle.

@@ -13,9 +13,9 @@ import javax.interceptor.Interceptors;
 
 import edu.hm.cs.fwp.jeetrain.business.users.entity.Preference;
 import edu.hm.cs.fwp.jeetrain.business.users.entity.PreferenceNames;
-import edu.hm.cs.fwp.jeetrain.framework.core.logging.ejb.TraceInterceptor;
-import edu.hm.cs.fwp.jeetrain.framework.core.persistence.GenericRepositoryBean;
-import edu.hm.cs.fwp.jeetrain.framework.core.persistence.NamedQueryParameters;
+import edu.hm.cs.fwp.jeetrain.common.core.logging.ejb.TraceInterceptor;
+import edu.hm.cs.fwp.jeetrain.common.core.persistence.repository.GenericRepositoryBean;
+import edu.hm.cs.fwp.jeetrain.common.core.persistence.repository.NamedQueryParameters;
 
 /**
  * TODO: add documentation!

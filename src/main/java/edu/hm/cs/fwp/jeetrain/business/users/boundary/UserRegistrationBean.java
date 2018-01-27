@@ -12,8 +12,8 @@ import javax.interceptor.Interceptors;
 
 import edu.hm.cs.fwp.jeetrain.business.users.control.PasswordEncoderBean;
 import edu.hm.cs.fwp.jeetrain.business.users.entity.User;
-import edu.hm.cs.fwp.jeetrain.framework.core.logging.ejb.TraceInterceptor;
-import edu.hm.cs.fwp.jeetrain.framework.core.persistence.GenericRepositoryBean;
+import edu.hm.cs.fwp.jeetrain.common.core.logging.ejb.TraceInterceptor;
+import edu.hm.cs.fwp.jeetrain.common.core.persistence.repository.GenericRepositoryBean;
 
 /**
  * Session bean based implementation of a user registration service.

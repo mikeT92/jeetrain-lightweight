@@ -1,8 +1,8 @@
 /* AuditableEntity.java @(#)%PID%
  */
-package edu.hm.cs.fwp.jeetrain.framework.core.persistence;
+package edu.hm.cs.fwp.jeetrain.common.core.persistence.audit;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * Marks an entity as auditable by retaining information about modification to
@@ -33,22 +33,22 @@ public interface AuditableEntity {
 	/**
 	 * Returns the creation date and time of this entity.
 	 */
-	public Date getCreationDate();
+	public LocalDateTime getCreationDate();
 
 	/**
-	 * Tells this entity to retain the specified user ID and point in time as
-	 * the creatorId and the creationDate of this entity.
+	 * Tells this entity to retain the specified user ID and point in time as the
+	 * creatorId and the creationDate of this entity.
 	 * <p>
-	 * This method can only be called once during an entities life to make sure
-	 * that information about an entity's creation can not be changed after the
-	 * entity has been successully persisted for the first time.
+	 * This method can only be called once during an entities life to make sure that
+	 * information about an entity's creation can not be changed after the entity
+	 * has been successully persisted for the first time.
 	 * </p>
 	 * <p>
 	 * Usually this method is called by {@code Repository} implementations that
 	 * support auditable entities.
 	 * </p>
 	 */
-	public void trackCreation(String creatorId, Date creationDate);
+	public void trackCreation(String creatorId, LocalDateTime creationDate);
 
 	/**
 	 * Returns the user ID of the user that modified this entity the last time.
@@ -58,15 +58,15 @@ public interface AuditableEntity {
 	/**
 	 * Returns the date and time of the last modification of this entity.
 	 */
-	public Date getLastModificationDate();
+	public LocalDateTime getLastModificationDate();
 
 	/**
-	 * Tells this entity to retain the specified user ID and point in time as
-	 * the lastModifierId and the lastModificationDate of this entity.
+	 * Tells this entity to retain the specified user ID and point in time as the
+	 * lastModifierId and the lastModificationDate of this entity.
 	 * <p>
 	 * Usually this method is called by {@code Repository} implementations that
 	 * support auditable entities.
 	 * </p>
 	 */
-	public void trackModification(String lastModifierId, Date lastModificationDate);
+	public void trackModification(String lastModifierId, LocalDateTime lastModificationDate);
 }

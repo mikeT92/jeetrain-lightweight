@@ -21,9 +21,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import edu.hm.cs.fwp.jeetrain.business.tasks.entity.Task;
-import edu.hm.cs.fwp.jeetrain.business.users.boundary.AuthenticatedUserComponentTestFixture;
-import edu.hm.cs.fwp.jeetrain.framework.core.logging.ejb.TraceInterceptor;
-import edu.hm.cs.fwp.jeetrain.framework.core.persistence.GenericRepositoryBean;
+import edu.hm.cs.fwp.jeetrain.common.core.logging.ejb.TraceInterceptor;
+import edu.hm.cs.fwp.jeetrain.common.core.persistence.repository.GenericRepositoryBean;
+import edu.hm.cs.fwp.jeetrain.common.test.AuthenticatedUserComponentTestFixture;
 
 /**
  * {@code Component Test} for {@link TaskManagerBean}.

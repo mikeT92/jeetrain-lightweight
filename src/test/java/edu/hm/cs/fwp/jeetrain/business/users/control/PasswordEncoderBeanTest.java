@@ -21,7 +21,7 @@ public class PasswordEncoderBeanTest {
 
 	@Test
 	public void encodeReturnsNonEmptyEncodedPassword() {
-		String encodedPassword = this.underTest.encode("fwpss2018");
+		String encodedPassword = this.underTest.encode("arquillian");
 		assertNotNull("encode must return non-null encoded password", encodedPassword);
 		assertFalse("encode must return non-empty encoded password", encodedPassword.isEmpty());
 		System.out.println(encodedPassword);

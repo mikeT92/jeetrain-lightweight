@@ -1,6 +1,6 @@
 /* QueryParametersBuilder.java @(#)%PID%
  */
-package edu.hm.cs.fwp.jeetrain.framework.core.persistence;
+package edu.hm.cs.fwp.jeetrain.common.core.persistence.repository;
 
 import java.util.ArrayList;
 import java.util.Collections;

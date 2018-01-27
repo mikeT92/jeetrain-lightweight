@@ -2,7 +2,7 @@
  * jeetrain-lightweight:LocalDateTimeConverter.java
  * Copyright (c) Michael Theis 2017
  */
-package edu.hm.cs.fwp.jeetrain.framework.core.persistence;
+package edu.hm.cs.fwp.jeetrain.common.core.persistence.convert;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;

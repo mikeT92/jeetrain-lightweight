@@ -16,15 +16,13 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import edu.hm.cs.fwp.jeetrain.business.tasks.entity.Task;
 import edu.hm.cs.fwp.jeetrain.business.tasks.entity.TaskLifeCycleState;
-import edu.hm.cs.fwp.jeetrain.business.users.boundary.AuthenticatedUserComponentTestFixture;
-import edu.hm.cs.fwp.jeetrain.framework.core.logging.ejb.TraceInterceptor;
-import edu.hm.cs.fwp.jeetrain.framework.core.persistence.GenericRepositoryBean;
+import edu.hm.cs.fwp.jeetrain.common.core.logging.ejb.TraceInterceptor;
+import edu.hm.cs.fwp.jeetrain.common.test.PersistenceTestArtifacts;
 
 /**
  * {@code Component Test} on {@link TaskProcessorBean}.
@@ -43,24 +41,15 @@ public class TaskProcessorComponentTest {
 	@Deployment
 	public static WebArchive createDeployment() {
 		WebArchive webModule = ShrinkWrap.create(WebArchive.class).addPackage(Task.class.getPackage())
-				.addClass(TaskProcessorBean.class).addClass(TraceInterceptor.class)
-				.addPackage(GenericRepositoryBean.class.getPackage()).addClass(TaskBuilder.class);
-		AuthenticatedUserComponentTestFixture.attachToDeployment(webModule);
+				.addClass(TaskProcessorBean.class).addClass(TraceInterceptor.class).addClass(TaskBuilder.class);
+		PersistenceTestArtifacts.attachToDeployment(webModule);
 		return webModule;
 	}
 
 	@Inject
 	private TaskProcessorBean underTest;
 
-	@Inject
-	private AuthenticatedUserComponentTestFixture testFixture;
-
 	private List<Long> taskIdTrashBin = new ArrayList<>();
-
-	@Before
-	public void onBefore() {
-		this.testFixture.onBefore();
-	}
 
 	@After
 	public void onAfter() {
@@ -72,7 +61,6 @@ public class TaskProcessorComponentTest {
 			}
 		}
 		this.taskIdTrashBin.clear();
-		this.testFixture.onAfter();
 	}
 
 	@Test

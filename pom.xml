@@ -5,7 +5,7 @@
 	<artifactId>jeetrain-lightweight</artifactId>
 	<version>1.0.0</version>
 	<packaging>war</packaging>
-	<description>FWP Aktuelle Techologien: Demo-Applikation für den Einstieg in JEE 7</description>
+	<description>FWP Aktuelle Techologien: Demo-Applikation für den Einstieg in JEE</description>
 	<properties>
 		<!-- Explicitly declaring the source encoding eliminates the following 
 			message: -->
@@ -151,10 +151,6 @@
 					<url>${mysql.url}</url>
 					<user>${mysql.admin.user}</user>
 					<password>${mysql.admin.password}</password>
-					<locations>
-						<location>filesystem:${basedir}/src/main/config/databases/mysql/sql 
-						</location>
-					</locations>
 				</configuration>
 				<dependencies>
 					<dependency>

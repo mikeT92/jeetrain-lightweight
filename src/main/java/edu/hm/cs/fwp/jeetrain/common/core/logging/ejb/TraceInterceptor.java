@@ -1,6 +1,6 @@
 /* TraceInterceptor.java @(#)%PID%
  */
-package edu.hm.cs.fwp.jeetrain.framework.core.logging.ejb;
+package edu.hm.cs.fwp.jeetrain.common.core.logging.ejb;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;

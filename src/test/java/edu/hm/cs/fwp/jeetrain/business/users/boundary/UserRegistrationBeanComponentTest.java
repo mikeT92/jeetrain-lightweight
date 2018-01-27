@@ -20,8 +20,8 @@ import com.sun.enterprise.security.ee.auth.login.ProgrammaticLogin;
 
 import edu.hm.cs.fwp.jeetrain.business.users.control.PasswordEncoderBean;
 import edu.hm.cs.fwp.jeetrain.business.users.entity.User;
-import edu.hm.cs.fwp.jeetrain.framework.core.logging.ejb.TraceInterceptor;
-import edu.hm.cs.fwp.jeetrain.framework.core.persistence.GenericRepositoryBean;
+import edu.hm.cs.fwp.jeetrain.common.core.logging.ejb.TraceInterceptor;
+import edu.hm.cs.fwp.jeetrain.common.core.persistence.repository.GenericRepositoryBean;
 
 @RunWith(Arquillian.class)
 public class UserRegistrationBeanComponentTest {
